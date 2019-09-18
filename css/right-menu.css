@@ -1,0 +1,180 @@
+@charset "UTF-8";
+/* menu direito */
+.right-menu {
+    display: block;
+    /* background-color: #000000ce; */
+    position: absolute !important;
+    height: 100%;
+    width: 15%;
+    font-size: 1em !important;
+    float: left;
+    right: 0;
+    overflow-y: scroll;
+}
+
+.elements-menu {
+    
+ 
+    background-color: #000000ce;
+    position: absolute !important;
+    right: 0;
+    align-items: center;
+    height: 100%;
+    width: 15%;
+    padding: 0px 10% 0px 10% !important;
+   
+    
+}
+
+/* tab control */
+
+.right-menu .tab {
+    margin: 0;
+    padding: 0;
+    margin-top: 8px;
+
+}
+
+.right-menu .tab > ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: inline-block;
+}
+
+.right-menu .tab > ul li {
+
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    background-color: rgb(91, 183, 245);
+    padding: 10px 22px;
+    box-sizing: border-box;
+    border-top: 3px solid transparent;
+}
+
+.btn-grupo {
+
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+
+.right-menu .tab > ul li:hover {
+    cursor: pointer;
+}
+
+.right-menu .tab > ul .active {
+    background-color:  rgb(15, 136, 216);
+    border-top: 3px solid  rgb(5, 99, 251);
+    
+}
+
+/* busca */
+.right-menu .custom-search {
+    
+    height: 30px;
+    position: relative;
+    top: 450px;
+    
+}
+
+.right-menu .custom-search input {
+    width: calc(100% - 15px);
+}
+
+.right-menu::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+
+.right-menu::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+.right-menu::-webkit-scrollbar-thumb
+{
+	background-color: #0ae;
+	
+	background-image: -webkit-gradient(linear, 0 0, 0 100%,
+	                   color-stop(.5, rgba(255, 255, 255, .2)),
+					   color-stop(.5, transparent), to(transparent));
+}
+
+/* pessoas */
+
+.perfil-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.dot {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: gray;
+    border-radius: 40%;
+    margin-left: 30px;
+}
+
+.online {
+    background-color: rgb(92, 221, 17);
+}
+
+.offline {
+    background-color: rgb(221, 18, 28);
+}
+
+
+.tab-content-pessoas table {
+    border-collapse: collapse; 
+    margin-top: 4px;
+    width: 100%;
+    max-width: 100%;
+    line-height: 24px;
+    font-size: 15px !important;
+}
+
+.tab-content-pessoas table th {
+    padding-top: 10px;
+    font-size: 15px !important;
+}
+
+.tab-content-pessoas table th span a {
+    
+    font-size: 11px;
+    color: white !important;
+    
+}
+
+
+.tab-content-pessoas table tr {
+    border-bottom: 1px solid green;
+    
+
+
+}
+
+.tab-content-pessoas table tr:last-child {
+    border-bottom: none;
+}
+
+
+
+.tab-content-pessoas table tr th:nth-child(1) {
+    width: 60px;
+    min-width: 60px;
+    text-align: left;
+
+}
+
+.tab-content-pessoas table tr th:nth-child(2) {
+    width: 100%;
+    font-size: 14px !important;
+    text-align: left;
+
+}

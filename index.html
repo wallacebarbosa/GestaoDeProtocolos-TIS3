@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Academy Club</title>
+    <!-- Links href -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" title="" charset="utf-8" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" title="" charset="utf-8" />
+    <link rel="stylesheet" href="css/normalize.css" type="text/css" media="screen" title="" charset="utf-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+    <script src="js/database.js"></script>
+    <script src="js/urlparams.js"></script>
+    
+</head>
+<!-- body -->
+<body>
+    <script>
+        LoadDB();
+
+        
+//         if(estouLogado() == false){
+
+//        window.location.replace("login.html");
+// }
+
+
+
+
+
+
+        
+
+
+        var params = GetParams();
+        var menuIndex = 0;
+
+        for(let i = 0; i < params.length; i++)
+        {
+            switch(params[i].name)
+            {
+                case "inicio":
+                    if(params[i].value == "TodosEventos")
+                    {
+                        menuIndex = 0;
+                    }
+                    else if(params[i].value == "MeusEventos")
+                    {
+                        menuIndex = 1;
+                    }
+                break;
+
+            }
+
+        }
+
+    </script>
+
+
+
+
+    <!-- navegacao superior -->
+    <header class="head">
+        <div onclick="fechar()"  class="left offset-0" height="30" style="margin-left: 30px;">
+            <div class="expander">
+                <span><a class="fa fa-bars"></a></span>
+            </div>
+        </div>
+        <div class="search input-group col-5 ">
+            <input type="text" id="pesquisar" class="form-control" placeholder="pesquisar" aria-label="pesquisar" aria-describedby="button-addon1">
+            <button class="fa fa-search btn btn-dark"></button>
+            <div id="results"></div>
+        </div>
+        <!-- right side -->
+        <ul class="options">
+            <li class="right">
+                <ul>
+                     <!-- expander menu -->
+                     <li class="right expand">
+                            <span id="perfil-photo" onclick="eventExpand()" ><i class="fa fa-angle-double-up"></i></span>
+                        </li>
+
+                        <div id="perfil-toolbar" class="hide">
+                            <nav>
+                                <ul>
+                                    <li><a href="">Configuraçao</a></li>
+                                    <li><a id="logout" href="index.html">sair</a></li>
+                                </ul>
+                            </nav>
+                            </div>
+                    <!-- avatar -->
+                    <li class="right">
+                        <div class="user-photo">
+                            <a href="?profile=Marcos"><img src="img/01.jpg"></a>
+                        </div>
+                    </li>
+                    <!-- messages -->
+                    <li class="right icon" >
+                        <a href="#"><i class="fa fa-comment-o"></i></a>
+                    </li>
+                    <!-- notifications -->
+                    <li class="right icon">
+                        <a href="#"><i class="fa fa-bell"></i></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </header>
+    
+    <!-- conteudo central -->
+    <main class="main">
+        <div class="bread-crambs col-12">
+            <nav class="right" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Eventos</a></li>
+
+                </ol>
+            </nav>
+        </div>
+        <!-- TITLE GROUP -->
+        <div class="grupo col-12 col ">
+            <h3>Gerenciamento de protocolos</h3>
+
+            <script>
+                document.write(`<input id="profile-img" type="image" src="${currentUser.img}" class="img-info">`);
+            </script>
+          
+            <input type="file" id="imgupload" accept="image/png, image/jpeg" onchange='openFile(event)' style="display: none"> 
+            <!-- <img id="user-image" class="img-info" src="img/sem-foto-perfil.jpg"> -->
+
+            <script>
+                var openFile = function(event) {
+                    var input = event.target;
+
+                    var reader = new FileReader();
+                    reader.onload = function(){
+                        var dataURL = reader.result;
+                        SetUserImage(dataURL);
+
+                        location.reload();
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                };
+
+
+                 $("input[type='image']").on('click', function () {
+                     $("input[id='imgupload']").click();
+                });
+            </script>
+
+
+
+            <input id="criar-grupo" class="btn btn-primary right " type="button" data-toggle="modal" data-target="#modal_criar" value="Abrir novo Protocolo">
+            <!-- <input id="entrar-grupo" class="btn btn-primary right " type="button" value="Participar de um evento" data-toggle="modal" data-target="#modal_grupos"> -->
+           
+            <ul class="list-info">
+                <h4>
+                    <script>document.write(currentUser.nome)</script>
+                </h4>
+                <p>
+                    <script>document.write("Cursando: " + currentUser.curso)</script>
+                </p>
+            </ul>
+        </div>
+        <!-- GROUP CONTENT -->
+        <div class="menu-grupo col-12 shadow">
+            <nav class="sub-menu ">
+                <ul class="">
+                    <script>
+                        if(menuIndex == 0) {
+                            document.write('<li class="item-menu selected" class="col-2"><a href="?inicio=TodosEventos">Meus protocolos</a></li>');
+                            // document.write('<li class="item-menu" class="col-2"><a href="?inicio=MeusEventos">Meus Eventos</a></li>');
+                        } else {
+                            document.write('<li class="item-menu" class="col-2"><a href="?inicio=TodosEventos">Meus protocolos</a></li>');
+                            // document.write('<li class="item-menu selected" class="col-2"><a href="?inicio=MeusEventos">Meus Eventos</a></li>');
+                        }     
+                    </script>
+                    
+                    
+                </ul>
+            </nav>
+            <!-- div de eventos que o usuario esta participando -->
+            <div id="group-content" class="pt-4">
+                <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Setor / Instituição</th>
+                        <th scope="col">Nome</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>sdfosidasasasasasasassl</td>
+                        <td>Otto</td>
+                        <td>WALLA</td>
+                        <td>WALLA</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>sdfosidasasasasasasassl</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                      </tr>
+                    
+                    </tbody>
+                </table>
+            </div>
+            <div class="spacer"></div>
+        </div>
+    </main>
+   
+                <!-- conteudo - grupos -->
+                <div class="tab-content-grupos" style="display: none;">
+                </div>
+
+                <!-- modal para participar de um evento -->
+                <div class="modal fade" id="modal_grupos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Buscar Eventos</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body col-12">
+                                <!-- dia disponivel -->
+                                <input id="model_data" type="date">
+                                <select id="model_turno">
+                                    <option value="">Todos</option>
+                                    <option value="">Manha</option>
+                                    <option value="">Tarde</option>
+                                    <option value="">Noite</option>
+                                </select>
+                                
+                                <!-- categoria -->
+                                <select id="model_categoria">
+                                    <script>
+                                        document.write(`<option value="">Todos</option>`);
+
+                                        let cats = [];
+                                        for(let i = 0; i < database.temas.length; i++)
+                                        {
+                                            if(!isInArray(cats, database.temas[i].categoria))
+                                            {
+                                                cats.push(database.temas[i].categoria);
+                                            }
+                                        }    
+
+                                        for(let i = 0; i < cats.length; i++)
+                                        {
+                                            document.write(`<option value="">${cats[i]}</option>`);
+                                        }  
+                                    </script>
+                                </select>
+
+                                <!-- sub categoria -->
+                                <select id="model_subcategoria">
+
+                                    <script>
+                                        // escrever todas as subcategorias
+                                        document.write(`<option value="">Todos</option>`);
+                                        let sub_cats = [];
+                                        for(let i = 0; i < database.temas.length; i++)
+                                        {
+                                            if(!isInArray(sub_cats, database.temas[i].sub_categoria))
+                                            {
+                                                sub_cats.push(database.temas[i].sub_categoria);
+                                            }
+                                        }    
+
+                                        for(let i = 0; i < sub_cats.length; i++)
+                                        {
+                                            document.write(`<option value="">${sub_cats[i]}</option>`);
+                                        }  
+                       
+
+
+                                        document.getElementById("model_categoria").addEventListener("change", function() {
+                                            let main_cat = $("#model_categoria>option:selected").text();
+                                            
+                                            if(main_cat == "Todos")
+                                            {
+                                                let sub_cats = [];
+                                                for(let i = 0; i < database.temas.length; i++)
+                                                {
+                                                    if(!isInArray(sub_cats, database.temas[i].sub_categoria))
+                                                    {
+                                                        sub_cats.push(database.temas[i].sub_categoria);
+                                                    }
+                                                }    
+                                                
+                                                let html = '<option value="">Todos</option>';
+                                                for(let i = 0; i < sub_cats.length; i++)
+                                                {
+                                                    html += `<option value="">${sub_cats[i]}</option>`;
+                                                }  
+                                                $("#model_subcategoria").empty();
+                                                $("#model_subcategoria").html(html);
+
+                                                return;
+                                            }
+
+
+                                            let subs = [];
+                                            for(let i = 0; i < database.temas.length; i++)
+                                            {
+                                                if(database.temas[i].categoria == main_cat)
+                                                {
+                                                    subs.push(database.temas[i].sub_categoria);
+                                                }
+                                            }
+
+                                            let html = '<option value="">Todos</option>';
+                                            for(let i = 0; i < subs.length; i++)
+                                            {
+                                                html += `<option value="">${subs[i]}</option>`;
+                                            }
+
+                                            $("#model_subcategoria").empty();
+                                            $("#model_subcategoria").html(html);
+
+                                        });
+
+                                    </script>
+                                </select>
+
+                                <button id="buscar_grupos" class="fa fa-search btn btn-dark"></button>
+
+                                <hr>
+                                <!-- cartoes de eventos em aberto -->
+                                <div id="model-container" class="col-12 bg-secundary ">
+                                </div>
+
+                                <script>
+                                    $("#buscar_grupos").click(function() {
+                                        let container = $("#model-container");
+                                        container.empty();
+
+                                        let mo_data = $("#model_data").val();
+                                        let mo_turno = $("#model_turno>option:selected").text();
+                                        let mo_categoria = $("#model_categoria>option:selected").text();
+                                        let mo_subcategoria = $("#model_subcategoria>option:selected").text();
+
+                                        let events = pegarEventosQueNaoEstou();
+                                        
+                                        for(let i = 0; i < events.length; i++)
+                                        {
+                                            let event = events[i];
+                                            let tema = pegarTemaAfiliado(event.id);
+                                            console.log(tema.categoria);
+
+                                            
+                                            let pesquisarTurno = (mo_turno != "Todos");
+                                            let pesquisarCategoria = (mo_categoria != "Todos");
+                                            let pesquisarSubcategoria = (mo_subcategoria != "Todos");
+
+                                            let achouTurno;
+                                            let achouCategoria;
+                                            let achouSubcategoria;
+
+                                            // pesquisar turno
+                                            if(pesquisarTurno) {
+                                                let turn = "";
+                                                switch(mo_turno)
+                                                {
+                                                    case "Tarde":
+                                                    turn = "T";
+                                                    break;
+                                                    case "Manha":
+                                                    turn = "M";
+                                                    break;
+                                                    case "Noite":
+                                                    turn = "N";
+                                                    break;
+                                                }
+
+                                                if(event.turno != turn) {
+                                                    achouTurno = false;
+                                                }else{achouTurno = true;}
+                                            } else{achouTurno = true;}
+
+
+                                            // pesquisar categoria
+                                            if(pesquisarCategoria) {
+                                                if(tema.categoria != mo_categoria) {
+                                                    achouCategoria = false;
+                                                }else{achouCategoria = true;}
+                                            } else{achouCategoria = true;}
+
+                                            // pesquisar subcategoria
+                                            if(pesquisarSubcategoria) {
+                                                if(tema.sub_categoria != mo_subcategoria) {
+                                                    achouSubcategoria = false;
+                                                }else{achouSubcategoria = true;}
+                                            } else{achouSubcategoria = true;}
+
+
+                                            if(achouTurno && achouCategoria && achouSubcategoria)
+                                            {
+                                                let html = pegarHTMlModel(events[i]);
+                                                html += "<br>";
+                                                container.append(html);
+                                            } 
+
+                                            
+                                        }
+                                    });
+                                </script>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button id="model-close" type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <button id="model-limpar" type="button" class="btn btn-secondary">Limpar</button>
+                            </div>
+
+                            <script>
+                            document.getElementById("model-close").addEventListener("click", function() {
+                                let cont = $("#model-container");
+                                cont.empty();
+                            });
+
+                            document.getElementById("model-limpar").addEventListener("click", function() {
+                                let cont = $("#model-container");
+                                cont.empty();
+                            });
+
+
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- outro modal -->
+                <div class="modal fade" id="modal_criar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">CADASTRAR NOVO EVENTO</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="inputAddress2">Nome do evento</label>
+                                        <input id="nome_evento" type="text" class="form-control" placeholder="Nome do Evento">
+                                    </div>
+                                    <div class="col">
+                                        <label for="inputAddress2">Tema</label>
+                                        <select id="modal_tema" class="form-control" aria-placeholder="Tema">
+                                            <script>
+                                                let cats2 = [];
+                                                for(let i = 0; i < database.temas.length; i++)
+                                                {
+                                                    if(!isInArray(cats2, database.temas[i].categoria))
+                                                    {
+                                                        cats2.push(database.temas[i].categoria);
+                                                    }
+                                                }  
+
+                                                for(let i = 0; i < cats2.length; i++)
+                                                {
+                                                    document.write(`<option value="">${cats2[i]}</option>`);
+                                                }
+                                                
+
+                                            </script>
+                                        </select>
+                                            
+                                    <!-- <input type="text" class="form-control" placeholder="Atividade principal"> -->
+                                    </div>
+                                </div>
+                            </form>
+                            <br>
+                    
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                    <label for="inputdata">Data do Evento</label>
+                                    <input type="date" class="form-control" id="data_criacao" placeholder="Data do Evento"> 
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                    <label for="inputhora">Termino do Evento</label>
+                                    <input type="date" class="form-control" id="data_termino" placeholder="Termino do Evento"> 
+
+                                    
+                                    <!-- <input type="text" class="form-control" id="inputhora" placeholder="Hora do evento"> -->
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputdata">Turno</label>
+                                        <select id="model_turno2" class="form-control" aria-placeholder="Turno">
+                                            <option value="">Manha</option>
+                                            <option value="">Tarde</option>
+                                            <option value="">Noite</option>
+                                        </select>
+                                        <!-- <input type="date" class="form-control" id="inputdata" placeholder="Data do Evento">  -->
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="inputhora">Sub Categoria</label>
+                                        <!-- <input type="date" class="form-control" id="inputdata" placeholder="Termino do Evento">  -->
+                                        <select id="model_subcat" class="form-control" aria-placeholder="sub_cat">
+                                            <option value="">Tabuleiro</option>
+                                            <option value="">Eletronico</option>
+                                        </select>
+                                        
+                                        <!-- <input type="text" class="form-control" id="inputhora" placeholder="Hora do evento"> -->
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="inputAddress">Titulo do evento</label>
+                                    <input type="text" class="form-control" id="titulo_evento" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress2">Descrição</label>
+                                    <textarea id="descricao_evento" class="form-control" rows="3" cols="50"></textarea>
+                                    <!-- <input type="text" class="form-control" id="inputAddress2" placeholder=""> -->
+                                </div>
+
+                                <!-- <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                    <label for="inputCity">Cidade</label>
+                                    <input type="text" class="form-control" id="inputCity">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                    <label for="inputState">Estado</label>
+                                    <select id="inputState" class="form-control">
+                                        <option selected>Procurar...</option>
+                                        <option>Minas Gerais</option>
+                                    </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                    <label for="inputZip">CEP</label>
+                                    <input type="text" class="form-control" id="inputZip">
+                                    </div>
+                                </div> -->
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btn_cadastrar" type="button" class="btn btn-primary">Cadastrar eventos</button>
+                        </div>
+
+                        <script>
+                            document.getElementById("modal_tema").addEventListener("change", function() {
+                                let text = $("#modal_tema>option:selected").text();
+
+                                let subs = [];
+                                for(let i = 0; i < database.temas.length; i++)
+                                {
+                                    if(database.temas[i].categoria == text)
+                                    {
+                                        subs.push(database.temas[i].sub_categoria);
+                                    }
+                                }
+
+                                let html = "";
+                                for(let i = 0; i < subs.length; i++)
+                                {
+                                    html += `<option value="">${subs[i]}</option>`;
+                                }
+
+                                $("#model_subcat").empty();
+                                $("#model_subcat").html(html);
+                                console.log(subs);
+                            });
+
+                            // button criar
+
+                            document.getElementById("btn_cadastrar").addEventListener("click", function() {
+                                let nomeEvento = $("#nome_evento").val();
+                                let tema = $("#modal_tema>option:selected").text();
+                                let dataCriacao = $("#data_criacao").val();
+                                let dataTermino = $("#data_termino").val();
+                                let subTema = $("#model_subcat>option:selected").text();
+                                let titulo = $("#titulo_evento").val();
+                                let desc = $("#descricao_evento").val();
+                                let turno = $("#model_turno2>option:selected").text();
+
+
+                                let obj = {
+                                    nomeEvento,
+                                    tema,
+                                    dataCriacao,
+                                    dataTermino,
+                                    subTema,
+                                    titulo, 
+                                    desc
+                                }
+
+                                console.log(obj);
+                                
+                                // verifica se ja existe algum grupo com o nome
+                                if(IsEventosHaveName(nomeEvento))
+                                {
+                                    alert("Já existe um evento com esse nome!");
+                                    return;
+                                }
+
+                                let temaID = pegarIdTemaPelaSub(subTema);
+                                console.log(temaID);
+                                
+
+                                if(cadastrarEvento(nomeEvento, temaID, dataCriacao, dataTermino, titulo, desc, turno))
+                                {
+                                    alert("Evento criado com sucesso!");
+                                    $("#nome_evento").val("");
+                                    $("#data_criacao").val("");
+                                    $("#data_termino").val("");
+                                    $("#titulo_evento").val("");
+                                    $("#descricao_evento").val("");
+
+
+                                    $('#modal_criar').modal('hide');
+
+
+                                    return;
+                                }
+                            });
+
+
+                        </script>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="custom-search col col-12 align-self-end">
+                <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon1">
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="js/pesquisa.js"></script>
+
+    <script>
+        
+var sair = $('#logout')
+sair.bind('click', function(){
+
+logout();})
+  
+
+//menu de configuraçoes do usuario e logout        
+function eventExpand(){
+    
+    var expanderMN = document.getElementById('perfil-toolbar')
+    
+    if (expanderMN.classList.contains('hide')) {
+expanderMN.classList.remove('hide')
+} else {
+expanderMN.classList.add('hide')
+}
+    
+    
+
+}
+
+    </script>
+</body>
+</html>
+

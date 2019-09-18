@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Academy Club</title>
+
+    <!-- Links href -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" title="" charset="utf-8" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" title="" charset="utf-8" />
+    <link rel="stylesheet" href="css/normalize.css" type="text/css" media="screen" title="" charset="utf-8" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+
+     <!-- firebase -->
+     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-app.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-auth.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-firestore.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-messaging.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-functions.js"></script>
+
+<!-- <script src="js/database.js"></script>
+     <script src='js/dados.js'></script>
+     <script src='js/urlparams.js'></script>   
+     <script src="js/AcademyClub.js" ></script> -->
+</head>
+
+<!-- body -->
+<body>
+
+        <script>
+             
+        </script>
+
+      
+
+            
+            <!-- navegacao superior -->
+            <header class="head">
+                
+                    <div onclick="fechar()"  class="left offset-0" height="30" style="margin-left: 30px;">
+                        <div class="expander">
+                            <span><a class="fa fa-bars"></a></span>
+                        </div>
+                    </div>
+                    
+                    <div class="search input-group col-5 ">
+                            
+                        <input type="text" id="pesquisar" class="form-control" placeholder="pesquisar" aria-label="pesquisar" aria-describedby="button-addon1">
+                        <button class="fa fa-search btn btn-dark"></button>
+                        <div id="results" style=""></div>
+                        
+                    </div>
+
+                    <!-- right side -->
+                    <ul class="options">
+                    <li class="right">
+                        <ul>
+                            <!-- expander menu -->
+                            <li class="right expand">
+                                <span><i class="fa fa-angle-double-up"></i></span>
+                            </li>
+
+                            <!-- avatar -->
+                            <li class="right">
+                                <div class="user-photo">
+                                    <a href="?profile=Marcos"><img src="img/01.jpg"></a>
+                                </div>
+                            </li>
+
+                            <!-- messages -->
+                            <li class="right icon" >
+                                <a href="#"><i class="fa fa-comment-o"></i></a>
+                            </li>
+
+                            <!-- notifications -->
+                            <li class="right icon">
+                                <a href="#"><i class="fa fa-bell"></i></a>
+                            </li>
+
+                        </ul> 
+                    </li>
+                </ul>
+    
+            </header>
+
+
+            <!-- menu esquerdo -->
+
+
+            <aside class="left-menu col col-1 offset-0 col-xl-0 col-lg-0 " >
+                <div class="menu col-11">
+                <div class="logo">
+                    <span style="font-family: 'Anton', sans-serif;">AC</span>
+                </div>
+
+                <ul class="options">
+                    <li onclick="mudaMeusEventos()"><a href="MeusEventos.html" class="fa fa-home" title="inicio"></a></li>
+                    <li><a class="fa fa-users" title="usuario"></a></li>
+                    <li onclick="mudaFullcalendar()"><a href="Fullcalendar.html" class="fa fa-calendar" title="calendario"></a></li>
+                </ul>
+            </div>
+            </aside>
+
+            <!-- conteudo central -->
+            <main class="main col-9">
+
+
+                    <div class="bread-crambs col-12">
+
+                    
+                        
+                              
+                            <nav class="right" aria-label="breadcrumb">
+                              <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="#">perfil</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">@marcofil</li>
+                              </ol>
+                            </nav>
+
+              </div>
+
+                
+                <!-- TITLE GROUP -->
+                <div class="grupo col-12 col ">
+                    <h3>Meus Eventos</h3>
+                    <img class="img-info"  src="img/sem-foto-perfil.jpg">
+                    <input id="entrar-grupo" class="btn btn-light right " type="button" data-toggle="modal" data-target="#exampleModalCenter" value="Novo evento">
+                    <!-- Button trigger modal -->
+                   
+                    <ul class="list-info">
+                        <h4>marcos filipe</h3>
+                        <p>estudante de engenharia - PucMG</p>
+
+                        <!-- <li>Pessoas ingressadas: 0</li>
+                        <li>Amigos que seguem: 0</li>
+                        <li>Data de criação: 18/10/2018</li> -->
+
+                    </ul>
+
+                    
+                </div>
+                
+                <!-- GROUP CONTENT -->
+                <div class="menu-grupo col-12 shadow">
+
+                    <nav class="sub-menu ">
+
+                        <ul class=""> 
+                            <li class="item-menu" class="col-2"><a href="index.html">Todos Eventos</a></li>
+                            <li onclick="mudaMeusEventos()" class="item-menu" class="col-2"><a href="MeusEventos.html">Meus Eventos</a></li>
+                                                       
+                        </ul>
+                    </nav>
+
+
+                    <div id="group-content" class="pt-4">
+                        
+                            <div class="card text-center col-10 p-0 ">
+                                    <div class="card-header border-0 shadow-sm bg-dark text-white m-0 col-12 float-left">
+
+                                            <span class="float-left ">Xadrez</span>
+                    
+                                    </div>
+
+                                    <div class="card-body">
+
+                                      <h5 class="card-title">Xadrez na casa do josé</h5>
+                                      <p class="card-text">Vamos fazer aquele jogo top!!!!</p>
+                                     
+                                    </div>
+
+                                    <div class=" col-12 card-footer text-muted">
+
+                                            <div class="user-manager d-inline left">
+
+                                                    <span class="font-weight-bold">Admin </span>
+                                                    <a class=""><img src="img/01.jpg"></a>
+
+                                            </div>
+
+                                            <div class="user-participants d-inline left">
+
+                                                    <span class="">Participantes:</span>
+                                                    <a class=""><img src="img/sem-foto-perfil.jpg"></a>
+
+                                            </div>
+                                    </div>
+                             </div>
+                     </div>
+
+                    <div class="spacer"></div>
+
+                </div>
+                
+            </main>
+
+            <!-- menu direito -->
+            <div class="right-menu col-xl-2 col-lg-2 col-2">
+
+                    <div class="elements-menu col-12">
+                <!-- tab control -->
+                <div class="tab">
+                    <!-- buttons -->
+                    <div class="btn-group col-12 offset-0" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-secondary">Pessoas</button>
+                        <button type="button" class="btn btn-secondary">Grupo</button>
+                        
+                      </div>
+
+                    <!-- conteudo - pessoas -->
+                    <div class="tab-content-pessoas">
+                        <table>
+                            <tbody>
+
+                                <tr>
+                                    <!-- user image -->
+                                    <th>
+                                        <span class="dot online"></span> <img class="perfil-img" src="img/02.jpg">
+                                    </th>
+                                   
+                                    
+                                    <!-- name & course -->
+                                    <th>
+                                        <span><a>Sabrina</a></span><br>
+                                        <span><a>Direito</a></span>
+                                        
+                                    </th>
+                                    
+                                </tr>   
+                           
+                                <tr>
+                                    <!-- user image -->
+                                    <th>
+                                        <span class="dot online"></span> <img class="perfil-img" src="img/03.jpg">
+                                    </th>
+                                    
+                                    <!-- name & course -->
+                                    <th>
+                                        <span><a>Giulia</a></span><br>
+                                        <span><a>Letras</a></span>
+                                    </th>
+                                </tr> 
+
+                                <tr>
+                                    <!-- user image -->
+                                    <th>
+                                        <span class="dot offline"></span> <img class="perfil-img" src="img/04.jpg">
+                                    </th>
+                                    
+                                    <!-- name & course -->
+                                    <th>
+                                        <span><a>Paula</a></span><br>
+                                        <span><a>Medicina</a></span>
+                                    </th>
+                                </tr> 
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <!-- conteudo - grupos -->
+                    <div class="tab-content-grupos" style="display: none;">
+                        
+                    </div>
+
+              
+                </div>
+
+                <div class="custom-search col col-12 align-self-end">
+                     <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon1">
+                    
+                </div>
+                </div>
+
+
+
+            </div> 
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">CADASTRAR NOVO EVENTO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Nome do Evento">
+            </div>
+            <div class="col">
+              <input type="text" class="form-control" placeholder="Atividade principal">
+            </div>
+          </div>
+        </form>
+
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputdata">Data do Evento</label>
+              <input type="text" class="form-control" id="inputdata" placeholder="Data do Evento"> 
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputhora">Hora do Evento</label>
+              <input type="text" class="form-control" id="inputhora" placeholder="Hora do evento">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputAddress">Endereço</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="Rua, numero e bairro">
+          </div>
+          <div class="form-group">
+            <label for="inputAddress2">Complemento</label>
+            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartmento, praça...">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputCity">Cidade</label>
+              <input type="text" class="form-control" id="inputCity">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputState">Estado</label>
+              <select id="inputState" class="form-control">
+                <option selected>Procurar...</option>
+                <option>Minas Gerais</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputZip">CEP</label>
+              <input type="text" class="form-control" id="inputZip">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="inputcadastrar" type="button" class="btn btn-primary">Cadastrar eventos</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="js/pesquisa.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <!--modal script -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+      $('#myModal').on('shown.bs.modal', function ()
+      {
+        $('#myInput').trigger('focus')
+      })
+    </script>
+
+    <script>
+       var content = document.getElementById("group-content") 
+       var entra = document.getElementById("inputcadastrar")
+       entra.addEventListener("click",  function(){
+            content.innerHTML += `<div> <h1> alo mundo </h1> </div>`
+    
+       })
+     </script>
+
+})
+</body>
+</html>

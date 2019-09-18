@@ -1,0 +1,40 @@
+{
+  "usuarios" : [ 
+    {
+      "id": 1,
+      "password": "e10adc3949ba59abbe56e057f20f883e",
+      "nome" : "wallace barbosa",
+      "idade" : 18,
+      "faculdade": "Puc Minas",
+      "curso" : "Engenharia de software",
+      "cidade" : "Belo Horizonte",
+      "genero": "Homem",
+      "email": "walace1232@gmail.com",
+      "grupos": [0, 2, 3, 4],
+      "horarios": 
+      [
+        {
+          "begin": "12:30",
+          "end": "14:00"
+        },
+        {
+          "begin": "18:40",
+          "end": "22:00"
+        }
+      ],
+      "interesses": 
+      [
+        {
+          "primary": 1,
+          "secundary": 1
+        },
+        {
+          "primary": 2,
+          "secundary": 1
+        }
+      ],
+      "contatos": [0, 1, 2, 3],
+      "img": "base64"
+    }
+  ]
+}
