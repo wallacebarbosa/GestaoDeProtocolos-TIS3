@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
     <script src="js/database.js"></script>
     <script src="js/urlparams.js"></script>
+    <script src="js/app.js"></script>
     
 </head>
 <!-- body -->
@@ -115,65 +116,43 @@
         <div class="bread-crambs col-12">
             <nav class="right" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Eventos</a></li>
+                    <li class="breadcrumb-item"><a href="#">meus protocolos</a></li>
+                    <li class="breadcrumb-item"><a href="#"></a></li>
 
                 </ol>
             </nav>
         </div>
         <!-- TITLE GROUP -->
-        <div class="grupo col-12 col ">
-            <h3>Gerenciamento de protocolos</h3>
+        <div class="grupo col-11  ">
+            <h3 class="col-2">Gerenciamento de protocolos</h3>
 
-            <script>
-                document.write(`<input id="profile-img" type="image" src="${currentUser.img}" class="img-info">`);
-            </script>
-          
-            <input type="file" id="imgupload" accept="image/png, image/jpeg" onchange='openFile(event)' style="display: none"> 
-            <!-- <img id="user-image" class="img-info" src="img/sem-foto-perfil.jpg"> -->
-
-            <script>
-                var openFile = function(event) {
-                    var input = event.target;
-
-                    var reader = new FileReader();
-                    reader.onload = function(){
-                        var dataURL = reader.result;
-                        SetUserImage(dataURL);
-
-                        location.reload();
-                    };
-                    reader.readAsDataURL(input.files[0]);
-                };
+        
 
 
-                 $("input[type='image']").on('click', function () {
-                     $("input[id='imgupload']").click();
-                });
-            </script>
-
-
-
-            <input id="criar-grupo" class="btn btn-primary right " type="button" data-toggle="modal" data-target="#modal_criar" value="Abrir novo Protocolo">
+            <button id="criar-grupo" class="btn btn-primary right " onclick="window.location.href=`./formulario.html`" value="Abrir novo Protocolo">Abrir novo Protocolo</button>
             <!-- <input id="entrar-grupo" class="btn btn-primary right " type="button" value="Participar de um evento" data-toggle="modal" data-target="#modal_grupos"> -->
            
             <ul class="list-info">
-                <h4>
+                <h4 class="col-9">
                     <script>document.write(currentUser.nome)</script>
                 </h4>
-                <p>
-                    <script>document.write("Cursando: " + currentUser.curso)</script>
+                <p class="col-9">
+                    <script>
+                    document.write("Setor: " + pegarSetorInst(currentUser["setor/instituicao"]))
+                    
+                    
+                    </script>
                 </p>
             </ul>
         </div>
         <!-- GROUP CONTENT -->
-        <div class="menu-grupo col-12 shadow">
+        <div class="menu-grupo col-11 shadow">
             <nav class="sub-menu ">
                 <ul class="">
                     <script>
                         if(menuIndex == 0) {
                             document.write('<li class="item-menu selected" class="col-2"><a href="?inicio=TodosEventos">Meus protocolos</a></li>');
-                            // document.write('<li class="item-menu" class="col-2"><a href="?inicio=MeusEventos">Meus Eventos</a></li>');
+                           
                         } else {
                             document.write('<li class="item-menu" class="col-2"><a href="?inicio=TodosEventos">Meus protocolos</a></li>');
                             // document.write('<li class="item-menu selected" class="col-2"><a href="?inicio=MeusEventos">Meus Eventos</a></li>');
@@ -189,6 +168,7 @@
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Data</th>
                         <th scope="col">Titulo</th>
                         <th scope="col">Status</th>
                         <th scope="col">Setor / Instituição</th>
@@ -196,19 +176,24 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>sdfosidasasasasasasassl</td>
-                        <td>Otto</td>
-                        <td>WALLA</td>
-                        <td>WALLA</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>sdfosidasasasasasasassl</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
+
+
+                      <script>
+                        let eventos;
+                        let filter;
+                        
+                            protocolos = pegarProtocolosSetor();
+                            filter = true;
+                        
+                        for(let i = 0; i < protocolos.length; i++)
+                        {
+                            let protocolo = protocolos[i];
+                            console.log(protocolos[i]);
+                            let html = pegarHTMLProtocolo(protocolo, i);
+                            document.write(html);
+                            document.write("<br>");
+                        }
+                    </script>
                     
                     </tbody>
                 </table>
@@ -645,9 +630,7 @@
 
 
             </div>
-            <div class="custom-search col col-12 align-self-end">
-                <input type="text" class="form-control" placeholder="Procurar" aria-label="Procurar" aria-describedby="button-addon1">
-            </div>
+            
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
