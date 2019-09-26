@@ -7,8 +7,9 @@
 ul,ol{list-style:none} 
 select{font-family:Tahoma, Geneva, sans-serif;font-size:12px; position:relative;margin:2px;padding:2px 4px;border:1px solid #b7b7b7;border-right-color:#e1e1e1;border-bottom-color:#e1e1e1;} 
 optgroup{font-family:Tahoma, Geneva, sans-serif;font-size:12px;font-style:normal}
+/* NORMALIZE CSS */
 
-
+/* BODY DEFAULT */
 body {
     font-size: 12px;
     text-align: center;
@@ -250,20 +251,30 @@ body {
 	margin-bottom: 10px;
 }
 
+#tab-control a {
+	text-decoration: none;
+	color: black;
+}
+
 #tab-control ul {
 	float: left;
 	margin: 0;
 	padding: 0;
+	list-style-type: none;
 	list-style: none;
-	padding: 12px 16px;
+	padding: 12px 0px;
 }
 
 #tab-control ul li {
+	left: 0;
+	margin: 0;
+	padding: 0;
 	display: inline;
-	background-color: inherit;
+	/* background-color: inherit; */
 	border: none;
 	outline: none;
 	cursor: pointer;
+	text-align: center;
 	padding: 14px 14px;
 	
 }
@@ -360,3 +371,115 @@ th {
 	vertical-align: baseline;
 }
 /* //Footer */
+
+
+/* COMPONENTS */
+
+/* FORM CADASTRO */
+.form-style-3{
+	max-width: 450px;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	padding-left: 20px;
+}
+.form-style-3 label{
+	display:block;
+	margin-bottom: 10px;
+}
+.form-style-3 label > span{
+	float: left;
+	width: 100px;
+	color: rgb(122, 113, 114);
+	font-weight: bold;
+	font-size: 13px;
+	text-shadow: 1px 1px 1px #fff;
+}
+.form-style-3 fieldset{
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	margin: 0px 0px 10px 0px;
+	border: 1px solid rgb(233, 233, 233);
+	padding: 20px;
+	background: rgb(226, 226, 226);
+	box-shadow: inset 0px 0px 15px rgb(201, 201, 201);
+	-moz-box-shadow: inset 0px 0px 15px rgb(212, 211, 211);
+	-webkit-box-shadow: inset 0px 0px 15px rgb(219, 219, 219);
+}
+.form-style-3 fieldset legend{
+	color: rgb(0, 0, 0);
+	border-top: 1px solid rgb(143, 143, 143);
+	border-left: 1px solid rgb(151, 151, 151);
+	border-right: 1px solid rgb(112, 112, 112);
+	border-radius: 5px 5px 0px 0px;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	background: rgb(179, 179, 179);
+	padding: 0px 8px 3px 8px;
+	box-shadow: -0px -1px 2px rgb(139, 139, 139);
+	-moz-box-shadow:-0px -1px 2px rgb(119, 119, 119);
+	-webkit-box-shadow:-0px -1px 2px rgb(136, 136, 136);
+	font-weight: normal;
+	font-size: 12px;
+}
+.form-style-3 textarea{
+	width:250px;
+	height:100px;
+}
+
+.form-style-3 input[type=text],
+.form-style-3 input[type=date],
+.form-style-3 input[type=datetime],
+.form-style-3 input[type=number],
+.form-style-3 input[type=search],
+.form-style-3 input[type=time],
+.form-style-3 input[type=url],
+.form-style-3 input[type=email],
+.form-style-3 select, 
+.form-style-3 textarea{
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border: 1px solid rgb(179, 179, 179);
+	outline: none;
+	color: rgb(0, 0, 0);
+	padding: 5px 8px 5px 8px;
+	box-shadow: inset 1px 1px 4px rgb(233, 233, 233);
+	-moz-box-shadow: inset 1px 1px 4px rgb(231, 231, 231);
+	-webkit-box-shadow: inset 1px 1px 4px rgb(221, 221, 221);
+	background: rgb(233, 233, 233);
+	width:50%;
+}
+
+.form-style-3 select {
+	width: 54%;
+}
+
+
+.form-style-3  input[type=submit],
+.form-style-3  input[type=button]{
+	background: rgb(156, 168, 172);
+	border: 1px solid rgb(144, 161, 168);
+	padding: 5px 15px 5px 15px;
+	color: rgb(255, 255, 255);
+	box-shadow: inset -1px -1px 3px rgb(170, 170, 170);
+	-moz-box-shadow: inset -1px -1px 3px rgb(140, 163, 167);
+	-webkit-box-shadow: inset -1px -1px 3px rgb(140, 154, 160);
+	border-radius: 3px;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;	
+	font-weight: bold;
+}
+
+.form-style-3  input[type=submit]:hover {
+	background: rgb(172, 186, 194);
+	cursor: pointer;
+}
+
+
+
+.required{
+	color:red;
+	font-weight:normal;
+}
+/* FORM CADASTRO */

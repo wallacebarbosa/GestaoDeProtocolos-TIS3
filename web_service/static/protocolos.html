@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gestão de Protocolos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/core.js"></script>
+</head>
+
+<body>
+    <div id="wrap">
+
+        <!-- title -->
+        <div id="header">
+            <div>
+                <h3>SISTEMA DE GESTÃO DE PROTOCOLOS</h3>
+            </div>
+        </div>
+
+        <!-- container -->
+        <div id="container" style="padding-bottom:10px;">
+
+            <!-- menu vertical -->
+            <div class="nav_menu">
+                <div id="menu_v" class="menu_v">
+                    <ul>
+                        <li class="active">
+                            <a href="#" class="selected"><span>Protocolos</span><span class="i"></span></a>
+                        </li>
+
+                        <li>
+                            <a href="#"><span>Usuarios</span><span class="i"></span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="content">
+
+                <!-- controle da abas -->
+                <div id="tab-control">
+                    <ul>
+                        <a href="#"><li class="active" >Meus Protocolos</li></a> 
+                        <a href="cadastro.html"><li>Cadastrar Protocolos</li></a>
+                        <li>Buscar Protocolo</li>
+                    </ul>
+                </div>
+
+
+                <!-- conteudo protocolos -->
+                <div class="tab-content" id="content-protocolos">
+                    <table id="table-protocolos">
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Setor</th>
+                            <th>Data</th>
+                        </tr>
+                    </table>
+                </div>
+
+                
+
+
+            </div>
+        </div>
+
+        <!-- footer -->
+		<!-- <div id="footer">
+            <address>
+                <a class="logo" href="#" target="_blank">
+                    <img alt="hospital" src="img/pp.jpg">
+                </a> <em>copyright ©</em> <a href="#" target="_blank">Puc Minas.</a> <em>By André, Wallace e Lucas - </em><span>todos os direitos reservados</span>
+            </address>
+        </div> -->
+    </div>
+</body>
+
+
+<script>
+    login("andre92@academyclub.com", "123456");
+    TableInsertProtocolos();
+</script>
+
+</html>

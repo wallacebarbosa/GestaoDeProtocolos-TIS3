@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gestão de Protocolos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/core.js"></script>
+</head>
+
+<body>
+    <div id="wrap">
+
+        <!-- title -->
+        <div id="header">
+            <div>
+                <h3>SISTEMA DE GESTÃO DE PROTOCOLOS</h3>
+            </div>
+        </div>
+
+        <!-- container -->
+        <div id="container" style="padding-bottom:10px;">
+
+            <!-- menu vertical -->
+            <div class="nav_menu">
+                <div id="menu_v" class="menu_v">
+                    <ul>
+                        <li class="active">
+                            <a href="#" class="selected"><span>Protocolos</span><span class="i"></span></a>
+                        </li>
+
+                        <li>
+                            <a href="#"><span>Usuarios</span><span class="i"></span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="content">
+
+                <!-- controle da abas -->
+                <div id="tab-control">
+                    <ul>
+                        <a href="protocolos.html"><li>Meus Protocolos</li></a>
+                        <a href="#"></a><li class="active">Cadastrar Protocolos</li></a>
+                        <li>Buscar Protocolo</li>
+                    </ul>
+                </div>
+
+
+                <!-- conteudo cadastro -->
+                <div class="tab-content" id="content-protocolos">
+
+                    <div class="form-style-3">
+                        <form id="cadastro-form" onsubmit="return false;">
+                            <fieldset>
+                                <legend>Remetente</legend>
+                                
+                                
+
+                                <label for="field1"><span>Setor/Instituição <span class="required"></span></span>
+                                    <select required class="input-field" name="field1" value="">
+                                        <script>
+                                            for(let i = 0; i < database.Unidades.length; i++)
+                                            {
+                                                let name = database.Unidades[i].nome;
+                                                document.write("<option value=\""+i+"\">"+name+"</option>");
+                                            }
+                                        </script>
+                                    </select>
+                                </label>
+                                <label for="field2"><span>Nome <span class="required"></span></span><input type="text" required class="input-field" name="field2" value="" /></label>
+                                <label for="field3"><span>Telefone <span class="required"></span></span><input type="text" data-mask="(00) 0000-0000" data-mask-selectonfocus="true" class="input-field"name="field3" value="" /></label>
+                                <label for="field3"><span>Email <span class="required"></span></span><input type="text" class="input-field"name="field4" value="" /></label>
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>Destinatario</legend>
+                                <label for="field1"><span>Setor/Instituição <span class="required"></span></span>
+                                    <select required class="input-field" name="field5" value="">
+                                        <script>
+                                            for(let i = 0; i < database.Unidades.length; i++)
+                                            {
+                                                let name = database.Unidades[i].nome;
+                                                document.write("<option value=\""+i+"\">"+name+"</option>");
+                                            }
+                                        </script>
+                                    </select>
+                                </label>
+                                <label for="field6"><span>Endereço <span class="required"></span></span><textarea name="field6" required class="textarea-field"></textarea></label>
+                                <label for="field1"><span>Titulo <span class="required"></span></span><input type="text" required class="input-field" name="field7" value="" /></label>
+                                <label for="field1"><span>Data <span class="required"></span></span><input type="date" required class="input-field" name="field8" value="" /></label>
+                                <label for="field6"><span>Descrição <span class="required"></span></span><textarea name="field9" required class="textarea-field"></textarea></label>
+
+                                <label><span> </span><input onclick="cadastrar();" type="submit" value="Cadastrar" /></label>
+                            </fieldset>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+		<!-- <div id="footer">
+            <address>
+                <a class="logo" href="#" target="_blank">
+                    <img alt="hospital" src="img/pp.jpg">
+                </a> <em>copyright ©</em> <a href="#" target="_blank">Puc Minas.</a> <em>By André, Wallace e Lucas - </em><span>todos os direitos reservados</span>
+            </address>
+        </div> -->
+    </div>
+</body>
+
+
+<script>
+    login("andre92@academyclub.com", "123456");
+</script>
+
+</html>
