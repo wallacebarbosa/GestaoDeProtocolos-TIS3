@@ -9,15 +9,19 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/core.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div id="wrap">
 
         <!-- title -->
-        <div id="header">
+        <div id="header" class="col-12">
             <div>
-                <h3>SISTEMA DE GESTÃO DE PROTOCOLOS</h3>
+                <h3 class="row justify-content-center">Sistema De Gestão De Protocolos</h3>
             </div>
         </div>
 
@@ -56,45 +60,29 @@
 
                     <div class="form-style-3">
                         <form id="cadastro-form" onsubmit="return false;">
-                            <fieldset>
-                                <legend>Remetente</legend>
-                                
-                                
-
-                                <label for="field1"><span>Setor/Instituição <span class="required"></span></span>
-                                    <select required class="input-field" name="field1" value="">
-                                        <script>
-                                            for(let i = 0; i < database.Unidades.length; i++)
-                                            {
-                                                let name = database.Unidades[i].nome;
-                                                document.write("<option value=\""+i+"\">"+name+"</option>");
-                                            }
-                                        </script>
-                                    </select>
-                                </label>
-                                <label for="field2"><span>Nome <span class="required"></span></span><input type="text" required class="input-field" name="field2" value="" /></label>
-                                <label for="field3"><span>Telefone <span class="required"></span></span><input type="text" data-mask="(00) 0000-0000" data-mask-selectonfocus="true" class="input-field"name="field3" value="" /></label>
-                                <label for="field3"><span>Email <span class="required"></span></span><input type="text" class="input-field"name="field4" value="" /></label>
-                            </fieldset>
+                      
 
                             <fieldset>
                                 <legend>Destinatario</legend>
                                 <label for="field1"><span>Setor/Instituição <span class="required"></span></span>
-                                    <select required class="input-field" name="field5" value="">
+                                    <select required class="input-field" name="field5" id="field5" value="">
                                         <script>
-                                            for(let i = 0; i < database.Unidades.length; i++)
-                                            {
-                                                let name = database.Unidades[i].nome;
-                                                document.write("<option value=\""+i+"\">"+name+"</option>");
-                                            }
+                                            DoGetSetores(function(data) {
+                                                for(let i = 0; i < data.length; i++) {
+
+                                                    $('#field5').append($('<option>', { 
+                                                        value: data[i].id,
+                                                        text : data[i].nome 
+                                                    }));
+                    
+                                                }
+                                            });
                                         </script>
                                     </select>
                                 </label>
-                                <label for="field6"><span>Endereço <span class="required"></span></span><textarea name="field6" required class="textarea-field"></textarea></label>
                                 <label for="field1"><span>Titulo <span class="required"></span></span><input type="text" required class="input-field" name="field7" value="" /></label>
-                                <label for="field1"><span>Data <span class="required"></span></span><input type="date" required class="input-field" name="field8" value="" /></label>
                                 <label for="field6"><span>Descrição <span class="required"></span></span><textarea name="field9" required class="textarea-field"></textarea></label>
-
+                                <label for="field1"><span>Anexo <span></span></span><input type="file" class="input-field" name="field10" value="" /></label>
                                 <label><span> </span><input onclick="cadastrar();" type="submit" value="Cadastrar" /></label>
                             </fieldset>
                         </form>
