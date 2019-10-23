@@ -5,7 +5,7 @@ var database = {
             "id": 0,
             "senha": "vasco",
             "nome": "wallace barbosa",
-            "setor/instituicao": 1,
+            "setor": 1,
             "email": "wallace-naruto@gmail.com",
             "online": false
         },
@@ -13,7 +13,7 @@ var database = {
             "id": 1,
             "senha": "123456",
             "nome": "andre murilo",
-            "setor/instituicao": 0,
+            "setor": 0,
             "email": "andre92@academyclub.com",
             "online": true
         }
@@ -56,12 +56,12 @@ var database = {
             "titulo":"Coletar Assinatura",
             "remetente":{
                 "nome": "wallace barbosa",
-                "setor/instituicao": 0,
+                "setor": 0,
                 "Endereço": ""
             },
             
             "destinatario":{
-                "setor/instituicao": 1,
+                "setor": 1,
                 "Endereço": ""
             },
             
@@ -73,12 +73,12 @@ var database = {
             "titulo":"envio de formulario",
             "remetente":{
                 "nome": "joao grilo",
-                "setor/instituicao": 0,
+                "setor": 0,
                 "descricao": ""
             },
             
             "destinatario":{
-                "setor/instituicao": 1
+                "setor": 1
             },
             "status": "fechado"
         },
@@ -88,12 +88,12 @@ var database = {
             "titulo":"Coleta de documento",
             "remetente":{
                 "nome": "maria bonita",
-                "setor/instituicao": 1,
+                "setor": 1,
                 "descricao": ""
             },
             
             "destinatario":{
-                "setor/instituicao": 1
+                "setor": 1
             },
             "status": "aberto"
         }
@@ -111,6 +111,7 @@ function userOn(){
 
 function login(email, senha)
 {
+    doget
     for(var i = 0; i < database.pessoas.length; i++)
     {
         let pessoa = database.pessoas[i]; 
@@ -187,20 +188,20 @@ function cadastrarProtocolo(nome, dataCriacao, SetorInst, desc, SetorInst_Dest, 
             "nome": nome,
             "telefone": telefone,
             "email": email,
-            "setor/instituicao": SetorInst
+            "setor": SetorInst
 
 
         },
 
         "destinatario": {
-            "setor/instituicao": SetorInst_Dest,
+            "setor": SetorInst_Dest,
             "endereco": enderecoRemetente
         },
         "descricao": desc,
         "status": status
     };
 
-
+    database.Protocolo[0].status.
     database.Protocolo.push(event);
 
     SaveDB();
@@ -215,12 +216,12 @@ function usuarioInProtocolo(protocoloID, Setor_destID)
     {
         let protocolo = database.Protocolo[i];
        
-        if(protocolo.destinatario["setor/instituicao"] == protocoloID)
+        if(protocolo.destinatario.setor == protocoloID)
         {
             
             for(var j = 0; j < database.pessoas.length; j++)
             {
-                if(database.pessoas[j]["setor/instituicao"] == Setor_destID)
+                if(database.pessoas[j].setor == Setor_destID)
                 {
                     console.log("ok")
                     return true;
@@ -241,7 +242,7 @@ function pegarHTMLProtocolo(protocolo, count)
 
     
     
-    let SetorInst = pegarSetorInst(protocolo.remetente["setor/instituicao"])
+    let SetorInst = pegarSetorInst(protocolo.remetente.setor)
     let status = protocolo.status;
 
 
@@ -261,26 +262,9 @@ function pegarHTMLProtocolo(protocolo, count)
 
 function pegarProtocolosSetor()
 {
-    if(currentUser == null) {
-        return null;
-    }
 
-    let protocolos = [];
-    database = database = JSON.parse(localStorage.getItem("db"));
-
-    for(var i = 0; i < database.Protocolo.length; i++)
-    {
-        let protocolo = database.Protocolo[i];
-
-        if(usuarioInProtocolo(protocolo.destinatario["setor/instituicao"], currentUser["setor/instituicao"]))
-        {
-            protocolos.push(protocolo);
-            
-        }
-
-    }
-
-    return protocolos;
+   
+    
 }
 
 function pegarSetorInst(number){
@@ -298,82 +282,145 @@ function pegarSetorInst(number){
 
 
 
-function TableInsertProtocolos()
-{
-    let setores = pegarProtocolosSetor();
+// function TableInsertProtocolos()
+// {
+//     let setores = pegarProtocolosSetor();
 
-    let table = document.getElementById("table-protocolos");
+//     let table = document.getElementById("table-protocolos");
+    
 
-    for(let i = 0; i < setores.length; i++)
-    {
-        let row = table.insertRow(i + 1);
-        let setor = setores[i];
+//     for(let i = 0; i < setores.length; i++)
+//     {
+//         let row = table.insertRow(i + 1);
+//         let setor = setores[i];
 
-        row.insertCell(0).innerHTML = setor.titulo;
-        row.insertCell(1).innerHTML = database.Unidades[setor.destinatario["setor/instituicao"]].nome;
-        row.insertCell(2).innerHTML = setor.data;
-    }
-}
+//         row.insertCell(0).innerHTML = setor.id;
+//         row.insertCell(1).innerHTML = `<th><button class="btn" style="background-color:#00b1eb" type="button" data-toggle="collapse" data-target="#collapse${i}" aria-expanded="false" aria-controls="collapseExample">
+//         ...
+//       </button></th>
+      
+//       <div class="collapse" id="collapse${i}">
+//       <div class="col pt-2" >
+//         <button type="button" class="btn btn-outline-success" data-toggle="modal" onclick="ConfirmarR('${i}')">Confirmar</button>
+//         <button type="button" class="btn btn-outline-danger">Rejeitar</button>
+//         <button type="button" class="btn btn-outline-warning">Reencaminhar</button>
+
+        
+        
+//       </div>
+
+//       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+//         <div class="modal-dialog" role="document">
+//             <div class="modal-content">
+//             <div class="modal-header">
+//                 <h5 class="modal-title" id="exampleModalLabel">${currentUser.nome}</h5>
+//                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+//                 <span aria-hidden="true">&times;</span>
+//                 </button>
+//             </div>
+//             <div class="modal-body">
+//                 <div class="input-group">
+//                     <div class="input-group-prepend">
+//                     <span class="input-group-text">Comentario</span>
+//                     </div>
+//                     <textarea class="form-control" aria-label="With textarea"></textarea>
+//                 </div>
+//             </div>
+//             <div class="modal-footer">
+//                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+//                 <button type="button" class="btn btn-primary" data-dismiss="modal" id="c">Confirmar recebimento</button>
+                
+//             </div>
+//             </div>
+//         </div>
+//         </div>
+//     </div>
+
+//       `;
+//         row.insertCell(2).innerHTML = setor.titulo;
+//         row.insertCell(3).innerHTML = database.Unidades[setor.destinatario["setor"]].nome;
+//         row.insertCell(4).innerHTML = setor.data;
+//         row.insertCell(5).innerHTML = setor.status;
+        
+//     }
+// }
+
+
+
 
 
 function cadastrar() {
     let form = document.getElementById("cadastro-form");
-
     let formData = new FormData(form);
 
-    let remSetor = formData.get("field1");
-    let remNome = formData.get("field2");
-    let remTel = formData.get("field3");
-    let remEmail = formData.get("field4");
-
-    let destSetor = formData.get("field5");
-    let destEnd = formData.get("field6");
-    let destTitulo = formData.get("field7");
-    let destData = formData.get("field8");
-    let destDesc = formData.get("field9");
-
-    if(remSetor == "" || remNome == "" || destSetor == "" || destEnd == "" || destTitulo == "") {
-        return false;
-    }
-
-    if(remSetor == destSetor) {
-        alert("Você não pode enviar um protocolo para o mesmo setor!");
-        return false;
-    }
-
-    console.log(remSetor);
-    console.log(remNome);
-    console.log(remTel);
-    console.log(remEmail);
+    let destSetor = $('#field5 option:selected').val()
     console.log(destSetor);
-    console.log(destEnd);
+    let destTitulo = formData.get("field7");
+    let destDesc = formData.get("field9");
+    let anexo = formData.get("field10");
+
+    if(destSetor == "" || destTitulo == "") {
+        return false;
+    }
+
+    console.log(destSetor);
     console.log(destTitulo);
-    console.log(destData);
     console.log(destDesc);
 
-    let protocol = {
-        "id": database.Protocolo.length + 1,
-        "data": destData,
+    let cad_protocol = {
+        "destSetor": destSetor,
         "titulo": destTitulo,
-        "remetente": {
-            "nome": remNome,
-            "setor/instituicao": remSetor,
-            "Endereço": ""
-        },
-        
-        "destinatario":{
-            "setor/instituicao": destSetor,
-            "Endereço": ""
-        },
-        
-        "status": "aberto"
-    };
+        "descricao": destDesc
+    }
 
 
-    
-    database.Protocolo.push(protocol);
-    SaveDB();
+    $.post("ajax/cadastro/protocolo", cad_protocol, function(data) {
+        if(data == "1") {
+            alert("Protocolo criado com sucesso!");
+        } else {
+            alert("Nao foi possivel criar o protocolo!");
+        }
 
-    form.reset();
-    alert("Protocolo cadastrado com sucesso!");
+        form.reset();
+    });
  }
+
+function DoLogin(user, pwd, callback)
+{
+    $.post("ajax/login", {username: user, password: pwd}, function(data) {
+        console.log(data);
+        if(data == "1") {
+            console.log("login verdade!");
+            callback(true);
+        } else {
+            callback(false);
+        }
+    }) 
+}
+
+function DoRequestProtocolos(callback)
+{
+    $.post("ajax/protocolos", function(data) {
+        callback(JSON.parse(data));
+    });
+}
+
+function DoGetSetores(callback) 
+{
+    $.post("ajax/setores", function(data) {
+        callback(JSON.parse(data));
+    });
+}
+
+function DoGetUnidades(callback) 
+{
+    $.post("ajax/unidades", function(data) {
+        callback(JSON.parse(data));
+    });
+}
+
+function DoGetEncaminhamentos(callback){
+    $.post("ajax/encaminhamentos", function(data) {
+        callback(JSON.parse(data));
+    });
+}

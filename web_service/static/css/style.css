@@ -13,7 +13,7 @@ optgroup{font-family:Tahoma, Geneva, sans-serif;font-size:12px;font-style:normal
 body {
     font-size: 12px;
     text-align: center;
-    background-color: #fff;
+    background-color: #76b82a;
 }
 
 
@@ -103,17 +103,24 @@ body {
 
 /* LAYOUT DEFINES*/
 #wrap {
-	width: 98%;
+	width: 100%;
 	height: 100%;
 	margin: 0px auto;
-	padding: 0px
+	padding: 0px;
+	background-color:;
+	
+
 }
 
 #header {
 	width: 100%;
-	height: 50px;
-	background-color: #ccc;
-	margin-bottom: 15px;
+	height: 100px;
+	background-color: #00746b;
+	
+}
+
+#header h3 {
+	font-size: 14px !important;
 }
 
 #container {
@@ -138,7 +145,7 @@ body {
 	margin-left: 200px;  
 	padding-left: 0; 
 	margin-top: 0px;
-	border: 1px solid #ccc;
+	
 }
 
 #footer {
@@ -246,8 +253,8 @@ body {
 /* TAB CONTROL */
 #tab-control {
 	overflow: hidden;
-	border: 1px solid #ccc;
-	background-color: #f1f1f1;
+	box-shadow: #333 0px 0px 2px;
+	background-color: white;
 	margin-bottom: 10px;
 }
 
@@ -279,12 +286,15 @@ body {
 	
 }
 
-#tab-control ul li:hover {
-	background-color: #ddd;
+#tab-control ul a:hover {
+	background-color: 	;
+	color: black;
+
 }
 
 #tab-control ul li.active {
 	background-color: #ccc;
+	color: black;
 }
 
 /* TAB CONTROLS */
@@ -306,7 +316,7 @@ tr:nth-child(even) {
 }
   
 th {
-	background-color: rgb(93, 94, 93);
+	background-color:#00b1eb;
 	color: white;
 }
 
@@ -483,3 +493,42 @@ th {
 	font-weight:normal;
 }
 /* FORM CADASTRO */
+
+/* CAMPO RASTREAMENTO */
+
+.rastreio-campo {
+	
+}
+
+.rastreio-campo li{
+	border-left: 3px #333 solid;
+	margin-left: 150px;
+	padding-top: 15px;
+}
+
+.rastreio-campo img{
+	
+	margin-left: -30px;
+	vertical-align: middle;
+}
+
+.rastreio-campo strong{
+	
+	font-weight: 500;
+	font-size: 16px;
+}
+
+.rastreio-campo p{
+	
+	margin-left: 35px;
+	font-stretch: 2;
+}
+
+.dt-r{
+	float: left;
+	width: 50px;
+	text-align: center;
+	font-size: 1.3rem;
+	margin-left: -130px;
+	margin-top: 20px;
+}

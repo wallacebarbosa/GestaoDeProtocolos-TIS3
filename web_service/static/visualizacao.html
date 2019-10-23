@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gestão de Protocolos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/core.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <div id="wrap">
+<!-- title -->
+<div id="header" class="col-12">
+    <div>
+       <img src="./img/Logo branca.png" class="rounded float-left m-2" width="200px">
+       <button class="btn btn-outline-success my-2 my-sm-0 float-right mt-md-4" type="submit"  data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Search</button>
+
+       <ul class="nav justify-content-end float-right p-4">
+        <li class="nav-item">
+          <a class="nav-link active text-light" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      
+    </div>
+</div>
+
+
+
+
+    <div id="container">
+
+        <div class="nav_menu">
+            <div id="menu_v" class="menu_v">
+                <ul>
+                    <li class="active">
+                        <a href="#" class="selected"><span>Protocolos</span><span class="i"></span></a>
+                    </li>
+
+                    <li>
+                        <a href="#"><span>Usuarios</span><span class="i"></span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="content">
+          <!-- controle da abas -->
+          <div id="tab-control">
+              <ul>
+                  <a href="#"><li class="active" >Meus Protocolos</li></a> 
+                  <a href="cadastro.html"><li>Cadastrar Protocolos</li></a>
+                  <li>Buscar Protocolo</li>
+              </ul>
+          </div>
+
+
+          <div class="tab-content" id="content-protocolos">
+              <button type="button" onclick="window.location = 'protocolos.html'" class="btn btn-outline-danger">Voltar</button>
+              <div class="page-header">
+                  <h1>Visualização de Protocolos</h1>
+                  <p class="lead">Menu conteúdo Protocolo</p>
+                </div><!-- page-header -->
+          
+                <!-- Criação das abas -->
+                <!-- <ul class="nav nav-pills" role="tablist"> -->
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="active"><a href="#info" role="tab" data-toggle="tab">Informações</a></li>
+                  <li><a href="#anexar" role="tab" data-toggle="tab">Anexar</a></li>
+                  <li><a href="#rastrear" role="tab" data-toggle="tab">Rastrear</a></li>
+          
+                </ul>
+          
+                <!-- Conteúdo das abas -->
+                <div class="tab-content">
+          
+                  <!-- aba informações -->
+                  <div class="tab-pane active" role="tabpanel" id="info">
+          
+                    <h3>Informações do Protocolo</h3>
+                    <p>Título do Protocolo: <span id="titulo_protocol"></span> </p>
+                    <p>Data: <span id="data_protocol"></span></p>
+          
+                    <div class="element-textarea"><label class="title"></label>
+                      <div class="item-cont"><textarea class="medium" name="textarea" cols="20" rows="5"
+                          placeholder="Descrição:"></textarea><span class="icon-place"></span></div>
+                    </div>
+          
+                    <fieldset>
+                        <legend>Remetente</legend>
+                        <p>Nome: <span id="nome_protocol"></span></p>
+                        <p>Setor:<span id="setor_protocol"></span> </p>
+                    </fieldset>
+
+                  
+                        <fieldset>
+                          <legend>Destinatario</legend>
+                          <p>Setor: <span id="setorD_protocol"></span></p>
+                          <p>Unidade: <span id="unidade_protocol"></span></p>
+                        </fieldset>
+                          
+                     
+                    </div>
+                  
+                    <!-- aba Anexar arquivo -->
+                    <div class="tab-pane" role="tabpanel" id="anexar">
+                      <h3>Anexar Arquivo</h3>
+          
+                      <div class="element-file"><label class="title"></label>
+                        <div class="item-cont"><label class="large">
+                            <div class="button">Selecionar arquivo</div><input type="file" class="file_input" name="file" />
+                          </label></div>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Aplicar</button>
+                    </div>
+          
+                    <!-- abas Futuras -->
+                    <div class="tab-pane" role="tabpanel" id="rastrear">
+                      <h3>Rastreamento</h3>
+                      <p>Aqui lugar para adicionar novas abas futuramente.</p>
+                      <div class="col-12 row ">
+                        <ul class="rastreio-campo">
+                          <li>
+                            <span class="dt-r">21/09/2019 12:30</span>
+                            <img src="./img/icon-send.png" >
+                            <strong>Protocolo Encaminhado</strong>
+                            <br><p>SETOR ##### para o setor *********** da unidade ********</p> <br>
+                          </li>
+
+                          <li>
+                              <span class="dt-r">21/09/2019 12:30</span>
+                              <img src="./img/reject-64px.png" >
+                              <strong>Protocolo rejeitado</strong>
+                              <br><p>SETOR ##### para o setor *********** da unidade ********</p> <br>
+                            </li>
+
+                            <li>
+                                <span class="dt-r">21/09/2019 12:30</span>
+                                <img src="./img/confirmation-64px.png" >
+                                <strong>Protocolo Confirmado</strong>
+                                <br><p>SETOR ##### para o setor *********** da unidade ********</p> <br>
+                              </li>
+
+                          <hr>
+                        </ul>
+                       </div>
+          
+                    </div>
+          
+                  </div>
+
+          </div>
+
+
+        </div>
+
+      </div><!-- container -->
+  </div>
+
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+  <script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
+
+
+
+  RequestProtocolo(getUrlParameter('id'), function(protocolo) {
+    console.log(protocolo);
+
+    $("#titulo_protocol").text(protocolo.titulo);
+    $("#data_protocol").text(new Date(Number.parseInt(protocolo.dataCriacao) * 1000).toISOString().slice(0, 10));
+    $("#remetente_protocol").text(protocolo.owner);
+    $("#nome_protocol").text(protocolo.titulo);
+    $("#setor_protocol").text(protocolo.onwer_setor);
+
+
+
+
+  });
+  
+  </script>
+</body>
+
+</html>
