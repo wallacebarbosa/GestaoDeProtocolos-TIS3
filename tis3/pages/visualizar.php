@@ -1,20 +1,6 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
 <div id="wrap">
-    <div id="header" class="col-12">
-        <div>
-            <img src="./img/Logo branca.png" class="rounded float-left m-2" width="200px">
-            <button class="btn btn-outline-success my-2 my-sm-0 float-right mt-md-4" type="submit" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Search</button>
-
-            <ul class="nav justify-content-end float-right p-4">
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#" tabindex="-1"><?php echo $_SESSION['user']['username'];?></a>
-                </li>
-            </ul>
-
-        </div>
-    </div>
-
 
     <!-- container -->
     <div id="container" style="padding-bottom:10px;">
@@ -145,6 +131,7 @@
                 $remetente = GetUsuarioByID($remetente_id);
                 $remetente_nome = $remetente['nome'];
                 $remetente_setor = GetSetorByID($remetente['setor_id']);
+                $remente_id3 = $remetente['setor_id'];
                 $remetente_setor_nome = $remetente_setor['nome'];
 
                 // get destino info
@@ -158,17 +145,23 @@
             <?php
                 if(isset($_POST['aceitarProtocolo'])) {
                     $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+                    mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $remente_id3, $setor_id, 'ACEITAR', NOW());");
                     mysqli_close($db);
-
-
-                    echo '<script>alert("Nao foi possivel aceitar o protocolo");</script>';
+                    //echo '<script>alert("Nao foi possivel aceitar o protocolo");</script>';
                 }
 
                 if(isset($_POST['rejeitarProtocolo'])) {
                     $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+                    mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $remente_id3, $setor_id, 'REJEITAR', NOW());");
                     mysqli_close($db);
 
-                    echo '<script>alert("Nao foi possivel rejeitar o protocolo");</script>';
+                    //echo '<script>alert("Nao foi possivel rejeitar o protocolo");</script>';
+                }
+
+                if(isset($_POST['encaminharProtocolo'])) {
+                    $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+                    mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $remente_id3, $setor_id, 'ENCAMINHAR', NOW());");
+                    mysqli_close($db);
                 }
 
             ?>
@@ -182,16 +175,17 @@
                 </div><!-- page-header -->
 
                 <div class="col pt-2" >
-                    <form action="" method="post">
-                        <input name="aceitarProtocolo" type="button" class="btn btn-outline-success" value="Confirmar">
+                    <form method="post">
+                        <input name="aceitarProtocolo" type="submit" class="btn btn-outline-success" value="Confirmar">
+                        
                     </form>
 
-                    <form action="" method="post">
-                        <input name="rejeitarProtocolo" type="button" class="btn btn-outline-danger" value="Rejeitar">
+                    <form method="post">
+                        <input name="rejeitarProtocolo" type="submit" class="btn btn-outline-danger" value="Rejeitar">
                     </form>
 
-                    <form action="" method="post">
-                        <input name="reencaminharProtocolo" type="button" class="btn btn-outline-warning" value="Encaminhar">
+                    <form method="post">
+                        <input name="reencaminharProtocolo" type="submit" class="btn btn-outline-warning" value="Encaminhar">
                     </form>
                 </div>
                 <br>
