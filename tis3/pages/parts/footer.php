@@ -1,12 +1,15 @@
-<!-- footer -->
-<div id="footer">
-            <address>
-                <a class="logo" href="#" target="_blank">
-                    <img alt="hospital" src="img/pp.jpg">
-                </a> <em>copyright ©</em> <a href="#" target="_blank">Puc Minas.</a> <em>By André, Wallace e Lucas - </em><span>todos os direitos reservados</span>
-            </address>
-        </div>
-    </div>
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4 col-12 float-left" style="background-color: #76b82a">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2018 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/" style="color: white;"> Tis lll</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
 </body>
 
 </html>
