@@ -199,7 +199,7 @@
 
                     <!-- aba informações -->
                     <div class="tab-pane active" role="tabpanel" id="info">
-                    <div class="fieldset col-12 m-2 float-left">
+                    <div class="fieldset col-12 m-2 my-4 float-left">
                         <strong>Informações do Protocolo</strong>
                        <hr>
                         
@@ -218,7 +218,7 @@
                                 <label for="">Descrição:</label> 
                                 <span id="protocol-descricao"><?php echo $descricao;?></span>
                             </div>
-
+                <hr>
  
                     </div>
 
