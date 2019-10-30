@@ -43,6 +43,6 @@ if(!isset($_SESSION['user'])) {
     }
 
     // incluir footer
-    // include_once("pages/parts/footer.php");
+     include_once("pages/parts/footer.php");
 }
 ?>
