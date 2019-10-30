@@ -1,4 +1,4 @@
-<link href="css/bootstrap.min.css" rel="stylesheet">
+
 
 <div id="wrap">
 
@@ -40,17 +40,11 @@
             </div>
         </div>
 
-
+        
         <?php include_once("pages/parts/menuv.php"); ?>
 
-        <div id="content">
-        <div id="tab-control">
-                <ul>
-                    <a href="?module=main"><li class="active">Meus Protocolos</li></a>
-                    <a href="?module=abrir"><li>Abrir Protocolo</li></a>
-                    <li>Buscar Protocolo</li>
-                </ul>
-            </div>
+
+        <div id="content" class="float-left col-10">
 
 
             <!-- visualizar protocolo -->
@@ -168,13 +162,102 @@
 
 
             <div class="tab-content" id="content-protocolos">
-                <button type="button" onclick="window.location = '?module=main'" class="btn btn-outline-danger">Voltar</button>
-                <div class="page-header">
-                    <h1>Visualização de Protocolos</h1>
-                    <p class="lead">Menu conteúdo Protocolo</p>
+                <div class="page-header  px-5 py-1" >
+                    <div class="float-left my-2 col-11">
+                        <h1>Visualização de Protocolos</h1>
+                        <p class="lead">Menu conteúdo Protocolo</p>
+                    </div>
+
+                    <button type="button" onclick="window.location = '?module=main'" class="btn btn-outline-danger float-left my-4">Voltar</button>
+
                 </div><!-- page-header -->
 
-                <div class="col pt-2" >
+                <br>
+
+
+
+                <!-- Criação das abas -->
+                <!-- <ul class="nav nav-pills" role="tablist"> -->
+                <div class="col-12 float-left">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Informações</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="anexar-tab" data-toggle="tab" href="#anexar" role="tab" aria-controls="anexar" aria-selected="false">Anexar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="rastrear-tab" data-toggle="tab" href="#rastrear" role="tab" aria-controls="rastrear" aria-selected="false">Rastrear</a>
+                    </li>
+                </ul>
+                </div>
+
+                <!-- Conteúdo das abas -->
+                <div class="tab-content">
+
+                   
+
+                    <!-- aba informações -->
+                    <div class="tab-pane active" role="tabpanel" id="info">
+                    <div class="fieldset col-12 m-2 float-left">
+                        <strong>Informações do Protocolo</strong>
+                       <hr>
+                        
+
+                        <div class="my-2 px-5">
+                                <label for="">Título do Protocolo:</label> 
+                                <span id="titulo_protocol"><?php echo $titulo;?></span>
+                            </div>
+
+                            <div class="my-2 px-5">
+                                <label for="">Data:</label> 
+                                <span id="data_protocol"><?php echo $data;?></span>
+                            </div>
+
+                            <div class="my-2 px-5">
+                                <label for="">Descrição:</label> 
+                                <span id="protocol-descricao"><?php echo $descricao;?></span>
+                            </div>
+
+ 
+                    </div>
+
+                        <div class="fieldset col-6 m-0 float-left">
+                            <strong class="mx-3">Remetente</strong>
+
+                            <div class="my-2 px-5">
+                                <label for="">Nome do Destinatario:</label> 
+                                <span id="nome_protocol"><?php echo $remetente_nome;?></span>
+                            </div>
+
+                            <hr>
+
+                            <div class="my-2 px-5">
+                                <label for="">Setor:</label> 
+                                <span id="setor_protocol"><?php echo $remetente_setor_nome;?></span>
+                            </div>
+                           
+            </div>
+
+
+                        <div class="fieldset col-6 m-0 float-left">
+                            <strong class="mx-3 " >Destinatario</strong>
+
+                            <div class="my-2 px-5">
+                                <label for="">Setor:</label> 
+                                <span id="setorD_protocol"><?php echo $setor_destino_nome;?></span>
+                            </div>
+
+                            <hr>
+
+                            <div class="my-2 px-5">
+                                <label for="">Unidade:</label> 
+                                <span id="unidade_protocol"><?php echo $unidade_destino_nome;?></span>
+                            </div>
+
+            </div>
+
+            <div class="button-protocol m-5 float-left col pt-2" >
                     <form method="post">
                         <input name="aceitarProtocolo" type="submit" class="btn btn-outline-success" value="Confirmar">
                         
@@ -184,52 +267,80 @@
                         <input name="rejeitarProtocolo" type="submit" class="btn btn-outline-danger" value="Rejeitar">
                     </form>
 
-                    <form method="post">
-                        <input name="reencaminharProtocolo" type="submit" class="btn btn-outline-warning" value="Encaminhar">
-                    </form>
+               
+                        <button name="reencaminharProtocolo" class="btn btn-outline-warning" value="Encaminhar" data-toggle="modal" data-target="#exampleModal">Encaminhar</button>
+                    
                 </div>
-                <br>
 
+                 <!-- Modal encaminhar-->
 
-
-                <!-- Criação das abas -->
-                <!-- <ul class="nav nav-pills" role="tablist"> -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="active"><a href="#info" role="tab" data-toggle="tab">Informações</a></li>
-                    <li><a href="#anexar" role="tab" data-toggle="tab">Anexar</a></li>
-                    <li><a href="#rastrear" role="tab" data-toggle="tab">Rastrear</a></li>
-
-                </ul>
-
-                <!-- Conteúdo das abas -->
-                <div class="tab-content">
-
-                    <!-- aba informações -->
-                    <div class="tab-pane active" role="tabpanel" id="info">
-
-                        <h3>Informações do Protocolo</h3>
-                        <p>Título do Protocolo: <span id="titulo_protocol"><?php echo $titulo;?></span> </p>
-                        <p>Data: <span id="data_protocol"><?php echo $data;?></span></p>
-
-                        <div class="element-textarea"><label class="title"></label>
-                            <div class="item-cont"><textarea class="medium" name="textarea" cols="20" rows="5" placeholder="Descrição:"><?php echo $descricao;?></textarea>
-                            
-                            <span class="icon-place"></span></div>
+                 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Encaminhamento</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
+                        <div class="modal-body">
+                        <div class="col-md-12 mb-5 float-left">
+                                <div class="col-12">
+                                    <fieldset>
+                                        <legend>Destinatario</legend>
 
-                        <fieldset>
-                            <legend>Remetente</legend>
-                            <p>Nome: <span id="nome_protocol"><?php echo $remetente_nome;?></span></p>
-                            <p>Setor:<span id="setor_protocol"><?php echo $remetente_setor_nome;?></span></p>
-                        </fieldset>
+                                        <div class="input-group mb-3">
+                                            <select name="unidade" required id="inputGroupSelect02">
 
+                                            <script>
+                                                DoGetUnidades(function(data) {
+                                                    for(let i = 0; i < data.length; i++) {
 
-                        <fieldset>
-                            <legend>Destinatario</legend>
-                            <p>Setor: <span id="setorD_protocol"></span><?php echo $setor_destino_nome;?></p>
-                            <p>Unidade: <span id="unidade_protocol"></span><?php echo $unidade_destino_nome;?></p>
-                        </fieldset>
+                                                        $('#inputGroupSelect02').append($('<option>', { 
+                                                            value: data[i].id,
+                                                            text : data[i].nome 
+                                                        }));
+                                                    }
+                                                });
+                                            </script>
 
+                                            </select>
+                                            <div class="input-group-append">
+                                                <label class="input-group-text" for="inputGroupSelect02">Unidade</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="input-group mb-4">
+                                            <select name="setor" required id="inputGroupSelect03">
+                                                <script>
+                                                    DoGetSetores(function(data) {
+                                                        for(let i = 0; i < data.length; i++) {
+
+                                                            $('#inputGroupSelect03').append($('<option>', { 
+                                                                value: data[i].id,
+                                                                text : data[i].nome 
+                                                            }));
+                                                        }
+                                                    });
+                                                </script>
+
+                                            </select>
+                                            <div class="input-group-append">
+                                                <label class="input-group-text" for="inputGroupSelect03">Setor</label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary">Enviar</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
 
                     </div>
 
@@ -247,7 +358,7 @@
 
                     <!-- abas Futuras -->
                     <div class="tab-pane" role="tabpanel" id="rastrear">
-                        <h3>Rastreamento</h3>
+                        <strong class="float-left col-12 m-3" style="font-size:1.4em;">Rastreamento</strong>
                         <div class="col-12 row ">
                             <ul class="rastreio-campo">
                                 <?php
@@ -298,9 +409,14 @@
                                 <hr>
                             </ul>
                         </div>
+
+            
                     </div>
 
+    
+
                 </div>
+               
             </div>
         </div>
     </div>

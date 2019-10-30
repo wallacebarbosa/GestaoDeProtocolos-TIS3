@@ -1,26 +1,6 @@
-<div id="wrap">
-    <div id="header" class="col-12">
-        <div>
-            <img src="./img/Logo branca.png" class="rounded float-left m-2" width="200px">
-            <button class="btn btn-outline-success my-2 my-sm-0 float-right mt-md-4" type="submit" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Search</button>
 
-            <ul class="nav justify-content-end float-right p-4">
-                <li class="nav-item">
-                    <a class="nav-link active text-light" href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
 
-        </div>
-    </div>
+
 
 
     <!-- container -->
@@ -38,19 +18,19 @@
                                         <input class="cat_type category-input" data-label="All" id="all" value="" name="radios" type="radio"><label for="all">Todos</label>
                                     </li>
                                     <li class="dropdown-item">
-                                        <input type="radio" name="radios" id="Design" value="Design" class=""><label class="category-label" for="Design">Setor</label>
+                                        <input type="radio" name="radios" id="Setor" value="Setor" class=""><label class="category-label" for="Design">Setor</label>
                                     </li>
                                     <li class="dropdown-item">
-                                        <input type="radio" name="radios" id="Marketing" value="Marketing"><label class="category-label" for="Marketing">Descriçao</label>
+                                        <input type="radio" name="radios" id="Descriçao" value="Descriçao"><label class="category-label" for="Descriçao">Descriçao</label>
                                     </li>
                                     <li class="dropdown-item">
-                                        <input type="radio" name="radios" id="Programming" value="Programming"><label class="category-label" for="Programming">Titulo</label>
+                                        <input type="radio" name="radios" id="Titulo" value="Titulo"><label class="category-label" for="Titulo">Titulo</label>
                                     </li>
                                     <li class="dropdown-item">
-                                        <input type="radio" name="radios" id="Sales" value="Sales"><label class="category-label" for="Sales">Data</label>
+                                        <input type="radio" name="radios" id="Data" value="Data"><label class="category-label" for="Data">Data</label>
                                     </li>
                                     <li class="dropdown-item">
-                                        <input type="radio" name="radios" id="Support" value="Support"><label class="category-label" for="Support">Numero de id</label>
+                                        <input type="radio" name="radios" id="Numid" value="Numid"><label class="category-label" for="Numid">Numero de id</label>
                                     </li>
                                 </ul>
                             </div>
@@ -64,18 +44,18 @@
 
         <?php include_once("pages/parts/menuv.php"); ?>
 
-        <div id="content">
-            <div id="tab-control">
-                <ul>
-                    <a href="#"><li class="active" >Meus Protocolos</li></a> 
-                    <a href="?module=abrir"><li>Abrir Protocolo</li></a>
-                    <li>Buscar Protocolo</li>
-                </ul>
-            </div>
+        <div id="content" class="float-left col-10">
 
 
            <!-- conteudo protocolos -->
            <div class="tab-content" id="content-protocolos">
+           <div class="page-header px-5 py-1">
+                <div class="float-left my-2 col-11">
+                        <h1>Protocolo recebidos</h1>
+                        <p class="lead">Meus protocolos</p>
+                </div>
+                    
+                </div>
                 <table id="table-protocolos">
                     <tr>
                         <th>#</th>
@@ -112,4 +92,4 @@
             </div>
         </div>
     </div>
-</div>
+

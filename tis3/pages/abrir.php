@@ -1,28 +1,7 @@
-<link href="css/bootstrap.min.css" rel="stylesheet">
+
 
 <div id="wrap">
-    <div id="header" class="col-12">
-        <div>
-            <img src="./img/Logo branca.png" class="rounded float-left m-2" width="200px">
-            <button class="btn btn-outline-success my-2 my-sm-0 float-right mt-md-4" type="submit" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">Search</button>
 
-            <ul class="nav justify-content-end float-right p-4">
-                <li class="nav-item">
-                    <a class="nav-link active text-light" href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-
-        </div>
-    </div>
 
 
     <!-- container -->
@@ -66,32 +45,33 @@
 
         <?php include_once("pages/parts/menuv.php"); ?>
 
-        <div id="content">
-            <div id="tab-control">
-                <ul>
-                    <a href="?module=main"><li>Meus Protocolos</li></a>
-                    <a href="?module=abrir"><li class="active">Abrir Protocolo</li></a>
-                    <li>Buscar Protocolo</li>
-                </ul>
-            </div>
+        <div id="content" class="col-10 float-left " >
+
 
 
             <!-- formulario abrir protocolo -->
             <div class="tab-content" id="content-protocolos">
                 <!-- <button type="button" onclick="window.location = 'protocolos.html'" class="btn btn-outline-danger float-right mr-5" style="width: 100px; height: 50px;">Voltar</button> -->
-                <div class="page-header">
+                <div class="page-header px-5 py-1">
+                    <div class="float-left my-2 col-11">
                     <h1>Abertura de protocolo</h1>
                     <p class="lead">Menu conteúdo Protocolo</p>
+                    </div>
+  
                 </div><!-- page-header -->
 
                 <!-- Criação das abas -->
                 <!-- <ul class="nav nav-pills" role="tablist"> -->
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="active"><a href="#info" role="tab" data-toggle="tab">Informações</a></li>
-                    <li><a href="#anexar" role="tab" data-toggle="tab">Anexar</a></li>
-
-
+                <div class="col-12 float-left">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Informações</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="anexar-tab" data-toggle="tab" href="#anexar" role="tab" aria-controls="anexar" aria-selected="false">Anexar</a>
+                    </li>
                 </ul>
+                </div>
 
                 <!-- Conteúdo das abas -->
                 <div class="tab-content p-3">
@@ -122,7 +102,7 @@
 
                     <!-- aba informações -->
                     <form action="" method="post">
-                        <div class="tab-pane active" role="tabpanel" id="info">
+                        <div class="tab-pane active" role="tabpanel" id="info" aria-labelledby="info-tab">
 
                             <h3 class="">Preencha os campos</h3>
                             <div class="col-6 mt-5 float-left">
@@ -210,7 +190,7 @@
 
 
                     <!-- aba Anexar arquivo -->
-                    <div class="tab-pane" role="tabpanel" id="anexar">
+                    <div class="tab-pane" role="tabpanel" id="anexar" aria-labelledby="anexar-tab">
                         <h3>Anexar Arquivo</h3>
 
                         <div class="element-file"><label class="title"></label>
