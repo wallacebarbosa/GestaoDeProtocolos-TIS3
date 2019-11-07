@@ -66,9 +66,8 @@
                     </tr>
 
                     <?php
-                        
                         $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                        $query = mysqli_query($db, "SELECT * FROM `protocolo`;");
+                        $query = mysqli_query($db, "SELECT * FROM `protocolo` WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.remetente_id = 1 OR e.destinatario_id = 1);");
 
                         while($row = mysqli_fetch_assoc($query)) {
                             $i = $row['id'];

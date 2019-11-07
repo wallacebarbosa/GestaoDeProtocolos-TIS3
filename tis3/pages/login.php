@@ -39,6 +39,7 @@
             // pega os dados do usuario, e adiciona na sessao
             $arr = array();
             $arr['id'] = $row['id'];
+            $arr['setor_id'] = $row['setor_id'];
             $arr['username'] = $user;
             $_SESSION['user'] = $arr;
 

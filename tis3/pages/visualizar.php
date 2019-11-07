@@ -153,8 +153,13 @@
                 }
 
                 if(isset($_POST['encaminharProtocolo'])) {
+                    $uni = $_POST['unidade'];
+                    $set = $_POST['setor'];
+
+                    $mySetor = $_SESSION['user']['setor_id'];
+
                     $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                    mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $remente_id3, $setor_id, 'ENCAMINHAR', NOW());");
+                    mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $mySetor, $set, 'ENCAMINHAR', NOW());");
                     mysqli_close($db);
                 }
 
@@ -258,65 +263,56 @@
             </div>
 
             <div class="button-protocol m-5 float-left col pt-2" >
-                    <form method="post">
-                        <input name="aceitarProtocolo" type="submit" class="btn btn-outline-success" value="Confirmar">
-                        
-                    </form>
 
-                    <form method="post">
-                        <input name="rejeitarProtocolo" type="submit" class="btn btn-outline-danger" value="Rejeitar">
-                    </form>
+                    <?php
+                        $protocolo = new Protocolo();
+                        if(!$protocolo->IsProtocoloAceito($protocolo_id))
+                        {
+                            if($protocolo->IsMyProtocolo($_SESSION['user']['id'], $_SESSION['user']['setor_id']))
+                            echo '
+                                <form method="post">
+                                    <input name="aceitarProtocolo" type="submit" class="btn btn-outline-success" value="Confirmar">
+                                </form>
+    
+                                <form method="post">
+                                    <input name="rejeitarProtocolo" type="submit" class="btn btn-outline-danger" value="Rejeitar">
+                                </form>
 
-               
-                        <button name="reencaminharProtocolo" class="btn btn-outline-warning" value="Encaminhar" data-toggle="modal" data-target="#exampleModal">Encaminhar</button>
-                    
+                                <button name="encaminharProtocolo" class="btn btn-outline-warning" value="Encaminhar" data-toggle="modal" data-target="#exampleModal">Encaminhar</button>
+                            ';
+                        }
+
+
+                    ?>  
                 </div>
 
                  <!-- Modal encaminhar-->
 
                  <div class="modal" id="exampleModal" tabindex="-1" role="dialog" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Encaminhamento</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                        <div class="col-md-12 mb-5 float-left">
-                                <div class="col-12">
-                                    <fieldset>
-                                        <legend>Destinatario</legend>
+                    <form method="post">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Encaminhamento</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                            <div class="col-md-12 mb-5 float-left">
+                                    <div class="col-12">
+                                        <fieldset>
+                                            <legend>Destinatario</legend>
 
-                                        <div class="input-group mb-3">
-                                            <select name="unidade" required id="inputGroupSelect02">
+                                            
+                                            <div class="input-group mb-3">
+                                                <select name="unidade" required id="inputGroupSelect02">
 
-                                            <script>
-                                                DoGetUnidades(function(data) {
-                                                    for(let i = 0; i < data.length; i++) {
-
-                                                        $('#inputGroupSelect02').append($('<option>', { 
-                                                            value: data[i].id,
-                                                            text : data[i].nome 
-                                                        }));
-                                                    }
-                                                });
-                                            </script>
-
-                                            </select>
-                                            <div class="input-group-append">
-                                                <label class="input-group-text" for="inputGroupSelect02">Unidade</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="input-group mb-4">
-                                            <select name="setor" required id="inputGroupSelect03">
                                                 <script>
-                                                    DoGetSetores(function(data) {
+                                                    DoGetUnidades(function(data) {
                                                         for(let i = 0; i < data.length; i++) {
 
-                                                            $('#inputGroupSelect03').append($('<option>', { 
+                                                            $('#inputGroupSelect02').append($('<option>', { 
                                                                 value: data[i].id,
                                                                 text : data[i].nome 
                                                             }));
@@ -324,25 +320,45 @@
                                                     });
                                                 </script>
 
-                                            </select>
-                                            <div class="input-group-append">
-                                                <label class="input-group-text" for="inputGroupSelect03">Setor</label>
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <label class="input-group-text" for="inputGroupSelect02">Unidade</label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </fieldset>
 
+                                            <div class="input-group mb-4">
+                                                <select name="setor" required id="inputGroupSelect03">
+                                                    <script>
+                                                        DoGetSetores(function(data) {
+                                                            for(let i = 0; i < data.length; i++) {
+
+                                                                $('#inputGroupSelect03').append($('<option>', { 
+                                                                    value: data[i].id,
+                                                                    text : data[i].nome 
+                                                                }));
+                                                            }
+                                                        });
+                                                    </script>
+
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <label class="input-group-text" for="inputGroupSelect03">Setor</label>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                    </div>
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-secondary" data-dismiss="modal" value="Cancelar">
+                                <input name="encaminharProtocolo" type="submit" class="btn btn-primary" value="Enviar">
+                            </div>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary">Enviar</button>
                         </div>
-                        </div>
-                    </div>
-                    </div>
-
-                    </div>
+                    </form>
+                </div>
 
                     <!-- aba Anexar arquivo -->
                     <div class="tab-pane" role="tabpanel" id="anexar">
