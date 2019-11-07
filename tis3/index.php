@@ -3,6 +3,8 @@
 session_start();
 
 // incluir arquivo de configuracao
+include_once("classes/Init.php");
+LoadModules();
 
 
 // incluir bibliotecas e classes
