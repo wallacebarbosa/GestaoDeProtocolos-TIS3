@@ -2,9 +2,9 @@
 
 function LoadModules()
 {
-    include_once("database.php");
-    include_once("user.php");
-    include_once("protocolos.php");
+    include_once("classes\database.php");
+    include_once("classes\user.php");
+    include_once("classes\protocolo.php");
 }
 
 LoadModules();

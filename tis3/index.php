@@ -33,6 +33,9 @@ if(!isset($_SESSION['user'])) {
             case "protocolo":
                 include_once("pages/visualizar.php");
                 break;
+            case "buscar":
+                include_once("pages/buscar.php");
+                break;
             case "logout":
                 session_destroy();
                 header("Location: index.php");

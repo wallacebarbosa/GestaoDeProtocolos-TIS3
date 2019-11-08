@@ -44,6 +44,7 @@
 
         <?php include_once("pages/parts/menuv.php"); ?>
 
+
         <div id="content" class="float-left col-10">
 
 
@@ -66,8 +67,11 @@
                     </tr>
 
                     <?php
+                        $cProtocolo = new Protocolo();
+
                         $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                        $query = mysqli_query($db, "SELECT * FROM `protocolo` WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.remetente_id = 1 OR e.destinatario_id = 1);");
+                        $mySetor = $_SESSION['user']['setor_id'];
+                        $query = mysqli_query($db, "SELECT * FROM `protocolo` P WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.destinatario_id = $mySetor AND e.protocolo_id = P.id);");
 
                         while($row = mysqli_fetch_assoc($query)) {
                             $i = $row['id'];
@@ -78,9 +82,9 @@
                             echo '<td>'.$i.'</td>';
 
                             echo '<td>'.$row['titulo'].'</td>';
-                            echo '<td>'.$row['setor_id'].'</td>';
+                            echo '<td>'.$cProtocolo->GetNomeSetor($row['setor_id']).'</td>';
                             echo '<td>'.$row['dataCriacao'].'</td>';
-                            echo '<td>Aberto</td>';
+                            echo '<td>'.$row['status'].'</td>';
                             echo '</tr>';
                         }
 

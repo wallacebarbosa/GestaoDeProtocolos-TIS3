@@ -139,6 +139,8 @@
             <?php
                 if(isset($_POST['aceitarProtocolo'])) {
                     $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+                    mysqli_query($db, "UPDATE `protocolo` SET `status` = 'Finalizado' WHERE `id` = '$protocolo_id';");
+
                     mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $remente_id3, $setor_id, 'ACEITAR', NOW());");
                     mysqli_close($db);
                     //echo '<script>alert("Nao foi possivel aceitar o protocolo");</script>';
@@ -146,6 +148,8 @@
 
                 if(isset($_POST['rejeitarProtocolo'])) {
                     $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+                    mysqli_query($db, "UPDATE `protocolo` SET `status` = 'Rejeitado' WHERE `id` = '$protocolo_id';");
+
                     mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $remente_id3, $setor_id, 'REJEITAR', NOW());");
                     mysqli_close($db);
 
@@ -159,6 +163,8 @@
                     $mySetor = $_SESSION['user']['setor_id'];
 
                     $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+                    mysqli_query($db, "UPDATE `protocolo` SET `status` = 'Encaminhado', `setor_id` = $set WHERE `id` = '$protocolo_id';");
+
                     mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $mySetor, $set, 'ENCAMINHAR', NOW());");
                     mysqli_close($db);
                 }
@@ -268,7 +274,7 @@
                         $protocolo = new Protocolo();
                         if(!$protocolo->IsProtocoloAceito($protocolo_id))
                         {
-                            if($protocolo->IsMyProtocolo($_SESSION['user']['id'], $_SESSION['user']['setor_id']))
+                            if($protocolo->IsMyProtocolo($protocolo_id, $_SESSION['user']['setor_id']))
                             echo '
                                 <form method="post">
                                     <input name="aceitarProtocolo" type="submit" class="btn btn-outline-success" value="Confirmar">

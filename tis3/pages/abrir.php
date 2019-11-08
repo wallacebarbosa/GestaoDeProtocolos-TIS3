@@ -85,14 +85,14 @@
                             $desc = $_POST['descricao'];
                             
                             $user_id = $_SESSION['user']['id'];
-                            $setor_id = 1;
+                            $mySetor = $_SESSION['user']['setor_id'];
 
 
                             $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                            mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), $user_id, $setor_id, '$desc');");
+                            mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `status`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), 'Aberto' ,$user_id, $destSetor, '$desc');");
                             $last_inserted = mysqli_insert_id($db);
                             
-                            mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($last_inserted, $setor_id, $destSetor, 'CRIAR', NOW());");
+                            mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($last_inserted, $mySetor, $destSetor, 'CRIAR', NOW());");
                             mysqli_close($db);
 
                             echo '<script>alert("Protocolo aberto com sucesso!");</script>';

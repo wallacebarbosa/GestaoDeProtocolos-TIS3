@@ -7,7 +7,7 @@ class User {
         $db = new Database();
         $db->Open("gprotocol");
 
-        $usrEscaped = $db->Escape($unsername);
+        $usrEscaped = $db->Escape($username);
         $pwdEscaped = $db->Escape($password);
 
 

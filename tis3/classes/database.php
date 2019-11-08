@@ -6,12 +6,12 @@ define("DB_PASS", "");
 
 class Database
 {
-    private $conn;
+    public $conn;
 
     public function Open($database)
     {
-        $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, $database);
-        if($conn)
+        $this->conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, $database);
+        if($this->conn)
             return true;
         else
             return false;
@@ -19,12 +19,12 @@ class Database
 
     public function Escape($string)
     {
-        return mysqli_real_escape_string($conn, $string);
+        return mysqli_real_escape_string($this->conn, $string);
     }
 
     public function Execute($sql)
     {
-        $result = mysqli_query($conn, $sql);
+        $result = mysqli_query($this->conn, $sql);
         if(mysql_affected_rows($result)) {
             return true;
         } else {
@@ -34,7 +34,7 @@ class Database
 
     public function Query($sql)
     {
-        $result = mysqli_query($conn, $sql);
+        $result = mysqli_query($this->conn, $sql);
         return $result;
     }
 
@@ -61,8 +61,8 @@ class Database
 
     public function Close()
     {
-        if(isset($conn)) {
-            mysqli_close($conn);
+        if(isset($this->conn)) {
+            mysqli_close($this->conn);
         }
     }
 
