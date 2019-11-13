@@ -1,9 +1,6 @@
 
 
 <div id="wrap">
-
-
-
     <!-- container -->
     <div id="container" style="padding-bottom:10px;">
         <div class="m-2 col-12  ">
@@ -85,14 +82,14 @@
                             $desc = $_POST['descricao'];
                             
                             $user_id = $_SESSION['user']['id'];
-                            $mySetor = $_SESSION['user']['setor_id'];
+                            $setor_id = 1;
 
 
                             $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                            mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `status`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), 'Aberto' ,$user_id, $destSetor, '$desc');");
+                            mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), $user_id, $setor_id, '$desc');");
                             $last_inserted = mysqli_insert_id($db);
                             
-                            mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($last_inserted, $mySetor, $destSetor, 'CRIAR', NOW());");
+                            mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($last_inserted, $setor_id, $destSetor, 'CRIAR', NOW());");
                             mysqli_close($db);
 
                             echo '<script>alert("Protocolo aberto com sucesso!");</script>';
@@ -134,14 +131,32 @@
 
                                             <script>
                                                 DoGetUnidades(function(data) {
+                                                    $('#inputGroupSelect02').empty().append('<select name="unidade" required id="inputGroupSelect02">');
+                                                    
                                                     for(let i = 0; i < data.length; i++) {
-
                                                         $('#inputGroupSelect02').append($('<option>', { 
                                                             value: data[i].id,
                                                             text : data[i].nome 
                                                         }));
                                                     }
                                                 });
+
+                                                $('#inputGroupSelect02').change(function() {
+                                                    let id = parseInt($(this).val());
+                                                    
+                                                    DoGetSetores(id, function(data) {
+                                                        $('#inputGroupSelect03').empty().append('<select name="setor" required id="inputGroupSelect03">');
+
+                                                        for(let i = 0; i < data.length; i++) {
+                                                            $('#inputGroupSelect03').append($('<option>', { 
+                                                                value: data[i].id,
+                                                                text : data[i].nome 
+                                                            }));
+                                                        }
+                                                    });
+                                                });
+
+
                                             </script>
 
                                             </select>
@@ -153,7 +168,7 @@
                                         <div class="input-group mb-4">
                                             <select name="setor" required id="inputGroupSelect03">
                                                 <script>
-                                                    DoGetSetores(function(data) {
+                                                    DoGetSetores(1, function(data) {
                                                         for(let i = 0; i < data.length; i++) {
 
                                                             $('#inputGroupSelect03').append($('<option>', { 

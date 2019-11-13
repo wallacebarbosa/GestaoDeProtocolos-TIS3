@@ -20,18 +20,6 @@ class Protocolo
         return $result;
     }
 
-    public function GetNomeSetor($id)
-    {
-        $db = new Database();
-        $db->Open("gprotocol");
-
-        $query = $db->Query("SELECT `nome` FROM `setor` WHERE `id` = $id");
-        $result = mysqli_fetch_assoc($query);
-        $db->Close();
-
-        return $result['nome'];
-    }
-
     public function GetProtocolosEnvolvidos()
     {
         $db = new Database();
@@ -89,7 +77,27 @@ class Protocolo
         }
     }
 
+    public function GetProtocolosRecebidos($setor_id)
+    {
+        $db = new Database();
+        $db->Open("gprotocol");
 
+        $query = $db->Query("SELECT * FROM `protocolo` p WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.destinatario_id = $setor_id AND p.id = e.protocolo_id);");
+        $db->Close();
+
+        return $query;
+    }
+
+    public function GetProtocolosEnviados($usr_id)
+    {
+        $db = new Database();
+        $db->Open("gprotocol");
+
+        $query = $db->Query("SELECT * FROM `protocolo` WHERE `usuario_id` = $usr_id;");
+        //$db->Close();
+
+        return $query;
+    }
 }
 
 ?>

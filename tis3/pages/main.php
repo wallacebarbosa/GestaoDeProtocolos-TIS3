@@ -1,8 +1,3 @@
-
-
-
-
-
     <!-- container -->
     <div id="container" style="padding-bottom:10px;">
         <div class="m-2 col-12  ">
@@ -44,7 +39,6 @@
 
         <?php include_once("pages/parts/menuv.php"); ?>
 
-
         <div id="content" class="float-left col-10">
 
 
@@ -54,7 +48,9 @@
                 <div class="float-left my-2 col-11">
                         <h1>Protocolo recebidos</h1>
                         <p class="lead">Meus protocolos</p>
+                        <hr>
                 </div>
+                
                     
                 </div>
                 <table id="table-protocolos">
@@ -67,11 +63,10 @@
                     </tr>
 
                     <?php
-                        $cProtocolo = new Protocolo();
+                        $mySetorIdx = $_SESSION['user']['setor_id'];
 
-                        $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                        $mySetor = $_SESSION['user']['setor_id'];
-                        $query = mysqli_query($db, "SELECT * FROM `protocolo` P WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.destinatario_id = $mySetor AND e.protocolo_id = P.id);");
+                        $cProtocolo = new Protocolo();
+                        $query = $cProtocolo->GetProtocolosRecebidos($mySetorIdx);
 
                         while($row = mysqli_fetch_assoc($query)) {
                             $i = $row['id'];
@@ -82,13 +77,11 @@
                             echo '<td>'.$i.'</td>';
 
                             echo '<td>'.$row['titulo'].'</td>';
-                            echo '<td>'.$cProtocolo->GetNomeSetor($row['setor_id']).'</td>';
+                            echo '<td>'.$row['setor_id'].'</td>';
                             echo '<td>'.$row['dataCriacao'].'</td>';
                             echo '<td>'.$row['status'].'</td>';
                             echo '</tr>';
                         }
-
-                        mysqli_close($db);
                     ?>
 
                 </table>

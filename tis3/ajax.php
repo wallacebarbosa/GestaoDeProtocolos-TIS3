@@ -39,7 +39,10 @@ if(isset($_POST['unidades']))
 }
 
 if(isset($_POST['setores'])) {
-    $query = mysqli_query($db, "SELECT * FROM `setor` WHERE `unidade_id` = 1;");
+    $unidade_id = $_POST['setores'];
+
+
+    $query = mysqli_query($db, "SELECT * FROM `setor` WHERE `unidade_id` = $unidade_id;");
 
     $jsonData = array();
     while ($array = mysqli_fetch_assoc($query)) {
@@ -50,7 +53,4 @@ if(isset($_POST['setores'])) {
     echo json_encode($jsonData);
     return;
 }
-
-
-
 ?>

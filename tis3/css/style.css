@@ -13,7 +13,7 @@ optgroup{font-family:Tahoma, Geneva, sans-serif;font-size:12px;font-style:normal
 body {
     font-size: 12px;
     text-align: center;
-    background-color: #76b82a;
+    
 }
 
 
@@ -26,10 +26,11 @@ body {
 }
 
 #login {
-    margin: 30px auto;
+	margin: 10% auto;
+	
 	background:#fff;
-	border: 8px solid #eee;
-	width: 500px;
+	padding: 40px;
+
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 18px;
@@ -67,9 +68,11 @@ body {
 }
 
 #login .field {
-    border: 1px solid #ccc;
-    width: 280px;
-    font-size: 12px;
+	border: 0px ;
+	height: 50px;
+	border-bottom: 1px solid #ccc;
+	outline: none;
+	text-align: center;
     line-height: 1em;
     padding: 4px;
     margin-left: 10px;
@@ -82,10 +85,10 @@ body {
 #login button{
 	border:0;
 	padding:0 30px;
-	height:30px;
+	height:40px;
 	line-height:30px;
 	text-align:center;
-	font-size:12px;
+
 	color:#fff;
 	-moz-border-radius:50px;
 	-webkit-border-radius:50px;
@@ -138,10 +141,7 @@ body {
 
 
 #content {
-	
-	padding-left: 0; 
 	margin-top: 0px;
-	
 }
 
 #footer {
@@ -158,10 +158,7 @@ body {
 #menu_v {
 	padding: 0 !important;
 	min-height: 700px;
-
 	font-size: 12px; 
-
-	
 }
 
 #menu_v ul {
@@ -178,7 +175,7 @@ width: 100%;
 	height: 40px;
 	color:#fff;
 	text-decoration: none;
-	border-bottom: 1px solid #fff;
+	/* border-bottom: 1px solid #fff; */
 }
 
 
@@ -552,8 +549,7 @@ th {
     margin: 0 auto;
     padding:0;
     list-style: none;
-    overflow:hidden;
- 
+	overflow:hidden;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -563,8 +559,13 @@ th {
     box-shadow:  1px 1px 10px rgba(0, 0, 0, 0.1);
 }
 
+#menu_v .form .expmenu {
+	padding: 0;
+	margin: 0;
+}
+
 #menu_v .form li a {
- 
+    width:100%;
     padding-left:20px;
     height:50px;
     line-height:50px;
@@ -573,7 +574,7 @@ th {
     position:relative;
     text-decoration:none;
     text-transform:uppercase;
-    font-size:14px;
+    font-size:12px;
     color:#686868;
  
     -webkit-transition:all 0.2s linear;
@@ -593,55 +594,56 @@ th {
 #menu_v .form li a.profile {
     border-left:5px solid #008747;
 }
+
 #menu_v .form li a.messages {
-        border-left:5px solid #fecf54;
-    }
- 
+	border-left:5px solid #fecf54;
+}
+
 #menu_v .form li a.settings {
-        border-left:5px solid #cf2130;
-    }
+	border-left:5px solid #cf2130;
+}
 #menu_v .form li a.logout {
-        border-left:5px solid #dde2d5;
-	}
-	
+	border-left:5px solid #dde2d5;
+}
+
 #menu_v .form li:first-child a:hover, .form li:first-child a {
-		-webkit-border-radius: 5px 5px 0 0;
-		-moz-border-radius: 5px 5px 0 0;
-		border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
 	}
 	 
 #menu_v .form li:last-child a:hover, .form li:last-child a {
-		-webkit-border-radius: 0 0 5px 5px;
-		-moz-border-radius: 0 0 5px 5px;
-		border-radius: 0 0 5px 5px;
-	}
+	-webkit-border-radius: 0 0 5px 5px;
+	-moz-border-radius: 0 0 5px 5px;
+	border-radius: 0 0 5px 5px;
+}
 
-	#menu_v	.form i {
-		margin-right:15px;
-	 
-		-webkit-transition:all 0.2s linear;
-		-moz-transition:all 0.2s linear;
-		-o-transition:all 0.2s linear;
-		transition:all 0.2s linear;
-	}
-	 
-	#menu_v	.form li a:hover i {
-		color:#ea4f35;
-	}
+#menu_v	.form i {
+	margin-right:15px;
+	
+	-webkit-transition:all 0.2s linear;
+	-moz-transition:all 0.2s linear;
+	-o-transition:all 0.2s linear;
+	transition:all 0.2s linear;
+}
+	
+#menu_v	.form li a:hover i {
+	color:#ea4f35;
+}
 
 
-	#menu_v .form em {
-		font-size: 10px;
-		background: #ea4f35;
-		padding: 3px 5px;
-		-webkit-border-radius: 10px;
-		-moz-border-radius: 10px;
-		border-radius: 10px;
-		font-style: normal;
-		color: #fff;
-		margin-top: 17px;
-		margin-right: 30px;
-		line-height: 10px;
-		height: 16px;
-		float:right;
-	}
+#menu_v .form em {
+	font-size: 10px;
+	background: #ea4f35;
+	padding: 3px 5px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	font-style: normal;
+	color: #fff;
+	margin-top: 17px;
+	margin-right: 30px;
+	line-height: 10px;
+	height: 16px;
+	float:right;
+}

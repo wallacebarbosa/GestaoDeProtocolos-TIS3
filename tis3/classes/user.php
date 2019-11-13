@@ -67,6 +67,21 @@ class User {
 
         return $result;
     }
+
+    public function GetSetorUser($setor_id)
+    {
+        $db = new Database();
+        $db->Open("gprotocol");
+
+        $query = $db->Query("SELECT * FROM `setor` WHERE `id` = $setor_id;");
+        $result = $query["nome"];
+        $db->Close();
+
+        return $result;
+    }
+
+    
+
 }
 
 

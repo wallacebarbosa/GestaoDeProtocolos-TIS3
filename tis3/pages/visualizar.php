@@ -274,7 +274,7 @@
                         $protocolo = new Protocolo();
                         if(!$protocolo->IsProtocoloAceito($protocolo_id))
                         {
-                            if($protocolo->IsMyProtocolo($protocolo_id, $_SESSION['user']['setor_id']))
+                            if($protocolo->IsMyProtocolo($_SESSION['user']['id'], $_SESSION['user']['setor_id']))
                             echo '
                                 <form method="post">
                                     <input name="aceitarProtocolo" type="submit" class="btn btn-outline-success" value="Confirmar">

@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Gestão de Protocolos - Login</title>
+
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css"> 
+
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/core.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
 </head>
-<body>
+<body style="background-color: #76b82a ">
 
     <?php 
 
@@ -58,19 +65,19 @@
 
 
     <!-- <img id="login_img" src="img/pp.jpg" alt="" srcset="" width="300px" height="150px"> -->
-    <form id="login" method="post" >
+    <form id="login" class="col-6" method="post" >
         <h1>Se conecte ao <strong>"Gestão de protocolos"</strong></h1>
         <div>
             <label for="login_username">Usuario</label>
-            <input type="text" name="username" class="field" id="login_username" required>
+            <input type="text" name="username" class="field col-12" id="login_username" required>
         </div>
         <div>
             <label for="login_password">Senha</label>
-            <input type="password" name="password" class="field" id="login_password" required>
+            <input type="password" name="password" class="field col-12" id="login_password" required>
         </div>
 
         <div class="btn_login">
-            <button name="login" type="submit">Login</button>
+            <button name="login" class="col-12" type="submit">Login</button>
         </div>
 
         <p class="ver">Gestão de Protocolos v.0.1</p>
