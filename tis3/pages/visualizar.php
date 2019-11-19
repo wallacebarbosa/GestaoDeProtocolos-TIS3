@@ -180,10 +180,69 @@
                     </div>
 
                     <button type="button" onclick="window.location = '?module=main'" class="btn btn-outline-danger float-left my-4">Voltar</button>
+                    <?php
+                        $protocolo = new Protocolo();
+                        if(!$protocolo->IsProtocoloAceito($protocolo_id))
+                        {
+                            if($protocolo->IsMyProtocolo($protocolo_id, $_SESSION['user']['setor_id']))
+                            echo '
+                                
+                                    <input name="editarProtocolo" type="submit" class="btn btn-success" value="Editar">
+                                
+                            ';
+                        }
+
+
+                    ?>  
 
                 </div><!-- page-header -->
 
                 <br>
+
+                
+                <?php
+                        $protocolo = new Protocolo();
+
+                        //  Se o protocolo estiver finalizado Exibe uma menssagem 
+                        
+                        if($protocolo->IsProtocoloAceito($protocolo_id))
+                        {
+                            
+                            echo '
+                                
+                            <div class="bs-callout bs-callout-success float-left col-12 shadow">
+                                    <h4>Protocolo finalizado</h4>
+                                    Não será possivel fazer nenhuma modificação.
+                            </div>                                
+                            ';
+                        } else {
+                           
+                            if($protocolo->IsMyProtocoloForwarding($protocolo_id, $_SESSION['user']['setor_id'])){
+                                echo '
+                                
+                                <div class="bs-callout bs-callout-warning float-left col-12 shadow">
+                                        <h4>Protocolo Encaminhado</h4>
+                                        Será possivel SOMENTE fazer ediçao ou anexo.
+                                </div>                                
+                                ';
+                            } else{
+                                if($protocolo->IsProtocoloReject($protocolo_id)){
+                                    echo '
+                                
+                                    <div class="bs-callout bs-callout-danger float-left col-12 shadow">
+                                            <h4>Protocolo rejeitado</h4>
+                                            Será possivel SOMENTE fazer ediçao ou anexo.
+                                    </div>                                
+                                    ';   
+                                }
+                            }
+                        }
+
+                        
+
+
+                    ?>  
+
 
 
 
@@ -194,9 +253,24 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Informações</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="anexar-tab" data-toggle="tab" href="#anexar" role="tab" aria-controls="anexar" aria-selected="false">Anexar</a>
-                    </li>
+
+                    <?php
+                        $protocolo = new Protocolo();
+                        if(!$protocolo->IsProtocoloAceito($protocolo_id))
+                        {
+                            if($protocolo->IsMyProtocolo($protocolo_id, $_SESSION['user']['setor_id']))
+                            echo '
+                                
+                            <li class="nav-item">
+                            <a class="nav-link" id="anexar-tab" data-toggle="tab" href="#anexar" role="tab" aria-controls="anexar" aria-selected="false">Anexar</a>
+                            </li>
+                                
+                            ';
+                        }
+
+
+                    ?> 
+
                     <li class="nav-item">
                         <a class="nav-link" id="rastrear-tab" data-toggle="tab" href="#rastrear" role="tab" aria-controls="rastrear" aria-selected="false">Rastrear</a>
                     </li>
@@ -206,7 +280,7 @@
                 <!-- Conteúdo das abas -->
                 <div class="tab-content">
 
-                   
+
 
                     <!-- aba informações -->
                     <div class="tab-pane active" role="tabpanel" id="info">
@@ -274,17 +348,15 @@
                         $protocolo = new Protocolo();
                         if(!$protocolo->IsProtocoloAceito($protocolo_id))
                         {
-                            if($protocolo->IsMyProtocolo($_SESSION['user']['id'], $_SESSION['user']['setor_id']))
+                            if($protocolo->IsMyProtocolo($protocolo_id, $_SESSION['user']['setor_id']))
                             echo '
                                 <form method="post">
                                     <input name="aceitarProtocolo" type="submit" class="btn btn-outline-success" value="Confirmar">
                                 </form>
     
-                                <form method="post">
-                                    <input name="rejeitarProtocolo" type="submit" class="btn btn-outline-danger" value="Rejeitar">
-                                </form>
-
-                                <button name="encaminharProtocolo" class="btn btn-outline-warning" value="Encaminhar" data-toggle="modal" data-target="#exampleModal">Encaminhar</button>
+                                <input name="rejeitarProtocolo" type="submit" class="btn btn-outline-danger" value="Rejeitar" data-toggle="modal" data-target="#modalRejeita">
+                                
+                                <button name="encaminharProtocolo" class="btn btn-outline-warning" value="Encaminhar" data-toggle="modal" data-target="#modalEncaminhar">Encaminhar</button>
                             ';
                         }
 
@@ -294,7 +366,7 @@
 
                  <!-- Modal encaminhar-->
 
-                 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                 <div class="modal" id="modalEncaminhar" tabindex="-1" role="dialog" role="dialog" aria-labelledby="encaminhamodoal" aria-hidden="true">
                     <form method="post">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -366,6 +438,50 @@
                     </form>
                 </div>
 
+
+                <!-- Modal rejeita -->
+
+                <div class="modal" id="modalRejeita" tabindex="-1" role="dialog" role="dialog" aria-labelledby="rejeitamodoal" aria-hidden="true">
+                    <form method="post">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Rejeitar protocolo</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body col-12">
+                            <div class="col-md-12 mb-5 float-left">
+                                    <div class="col-12">
+                                        <fieldset>
+                                            <legend style="margin: auto;text-align: center;">Justificativa</legend>
+                                            
+                                            <div class="input-group mb-3">
+
+                                                <div class="input-group-append col-12">
+      
+                                                    
+                                                    <div class="input-group p-4 col-12">
+                                                        <textarea name="descricao" required class="form-control" style="height: 100px;" aria-label="With textarea"></textarea>
+                                                    </div>
+                                                
+                                            </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-secondary" data-dismiss="modal" value="Cancelar">
+                                <form action="" method="post">
+                                    <input name="encaminharProtocolo" type="submit" class="btn btn-primary" value="Rejeitar" >
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+
                     <!-- aba Anexar arquivo -->
                     <div class="tab-pane" role="tabpanel" id="anexar">
                         <h3>Anexar Arquivo</h3>
@@ -378,7 +494,7 @@
                         <button type="submit" class="btn btn-primary">Aplicar</button>
                     </div>
 
-                    <!-- abas Futuras -->
+                    <!-- aba rastreamento -->
                     <div class="tab-pane" role="tabpanel" id="rastrear">
                         <strong class="float-left col-12 m-3" style="font-size:1.4em;">Rastreamento</strong>
                         <div class="col-12 row ">
@@ -405,6 +521,7 @@
                                             case "REJEITAR":
                                                 echo '<img src="./img/reject-64px.png">';
                                                 echo '<strong>Protocolo rejeitado</strong>';
+                                                echo '<button type="button" class="btn btn-info ml-3"><i class="fa fa-info-circle"></i></button>';
                                                 break;
                                             case "ACEITAR":
                                                 echo '<img src="./img/confirmation-64px.png">';

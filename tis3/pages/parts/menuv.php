@@ -5,21 +5,22 @@
             <a class="profile" href="#"><i class="fa fa-user fa-lg"></i>Meus protocolos<span class="arrow"></span></a>
         </li>
 
-        <ul class="mx-auto form sub-menu collapse" id="tgprotocolos">
+        <ul class="mx-auto form sub-menu collapse pl-2" id="tgprotocolos">
+
             <li class="expmenu">
-                <a class="profile" href="?module=index"><i class="fa fa-arrow-right"></i>Protocolos do setor</a>
+                <a class="subProfile" href="?module=index"><i class="fa fa-arrow-right"></i>Recebidos</a>
             </li>
 
             <li class="expmenu">
-                <a class="profile" href="?module=index"><i class="fa fa-arrow-right"></i>Protocolos recebidos</a>
+                <a class="subProfile" href="?module=index"><i class="fa fa-arrow-right"></i>Rejeitados</a>
             </li>
 
             <li class="expmenu">
-                <a class="profile" href="?module=index"><i class="fa fa-arrow-right"></i>Protocolos rejeitados</a>
+                <a class="subProfile" href="?module=index"><i class="fa fa-arrow-right"></i>Finalizados</a>
             </li>
 
             <li class="expmenu">
-                <a class="profile" href="?module=index"><i class="fa fa-arrow-right"></i>Protocolos finalizados</a>
+                <a class="subProfile" href="?module=index"><i class="fa fa-arrow-right"></i>Encaminhados</a>
             </li>
         </ul>
 
@@ -28,7 +29,7 @@
         </li>
 
         <li>
-            <a class="settings" href="#"><i class="fa fa-search"></i>Buscar Protocolo</a>
+            <a class="settings" href="?module=buscar"><i class="fa fa-search"></i>Buscar Protocolo</a>
         </li>
 
         <li>

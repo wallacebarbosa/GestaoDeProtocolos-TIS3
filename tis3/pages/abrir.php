@@ -1,6 +1,9 @@
 
 
 <div id="wrap">
+
+
+
     <!-- container -->
     <div id="container" style="padding-bottom:10px;">
         <div class="m-2 col-12  ">
@@ -82,14 +85,14 @@
                             $desc = $_POST['descricao'];
                             
                             $user_id = $_SESSION['user']['id'];
-                            $setor_id = 1;
+                            $mySetor = $_SESSION['user']['setor_id'];
 
 
                             $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                            mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), $user_id, $setor_id, '$desc');");
+                            mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `status`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), 'Aberto' ,$user_id, $destSetor, '$desc');");
                             $last_inserted = mysqli_insert_id($db);
                             
-                            mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($last_inserted, $setor_id, $destSetor, 'CRIAR', NOW());");
+                            mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($last_inserted, $mySetor, $destSetor, 'CRIAR', NOW());");
                             mysqli_close($db);
 
                             echo '<script>alert("Protocolo aberto com sucesso!");</script>';
@@ -98,12 +101,12 @@
 
 
                     <!-- aba informações -->
-                    <form action="" method="post">
-                        <div class="tab-pane active" role="tabpanel" id="info" aria-labelledby="info-tab">
 
-                            <h3 class="">Preencha os campos</h3>
-                            <div class="col-6 mt-5 float-left">
-                                <div class="input-group mb-4 ">
+                        <div class="tab-pane active" role="tabpanel" id="info" aria-labelledby="info-tab">
+                        <form action="" method="post" class="float-left p-4">                          
+                          <h3 class="float-left col-12">Preencha os campos</h3>
+                            <div class="col-12 mt-5 float-left">
+                                <div class="input-group mb-4 mx-auto col-6 ">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroup-sizing-default">Titulo</span>
                                     </div>
@@ -111,67 +114,28 @@
                                 </div>
 
 
-                                <div class="input-group mb-4 ">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">Data</span>
-                                    </div>
-                                    <input required name="data" type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                                </div>
 
-
+                        <hr>
                             </div>
 
-                            <div class="col-md-6 mb-5 float-left">
-                                <div class="col-12">
+                            <div class="col-12 mb-5 float-left">
+                                <div class="">
                                     <fieldset>
-                                        <legend>Destinatario</legend>
+                                        <legend class="mb-4">Destinatario:</legend>
 
-                                        <div class="input-group mb-3">
-                                            <select name="unidade" required id="inputGroupSelect02">
-
-                                            <script>
-                                                DoGetUnidades(function(data) {
-                                                    $('#inputGroupSelect02').empty().append('<select name="unidade" required id="inputGroupSelect02">');
-                                                    
-                                                    for(let i = 0; i < data.length; i++) {
-                                                        $('#inputGroupSelect02').append($('<option>', { 
-                                                            value: data[i].id,
-                                                            text : data[i].nome 
-                                                        }));
-                                                    }
-                                                });
-
-                                                $('#inputGroupSelect02').change(function() {
-                                                    let id = parseInt($(this).val());
-                                                    
-                                                    DoGetSetores(id, function(data) {
-                                                        $('#inputGroupSelect03').empty().append('<select name="setor" required id="inputGroupSelect03">');
-
-                                                        for(let i = 0; i < data.length; i++) {
-                                                            $('#inputGroupSelect03').append($('<option>', { 
-                                                                value: data[i].id,
-                                                                text : data[i].nome 
-                                                            }));
-                                                        }
-                                                    });
-                                                });
-
-
-                                            </script>
-
-                                            </select>
-                                            <div class="input-group-append">
-                                                <label class="input-group-text" for="inputGroupSelect02">Unidade</label>
+                                        <div class="input-group mb-3 col-6 mx-auto">
+                                        <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">Unidade</label>
                                             </div>
-                                        </div>
+                                            <select name="unidade" required id="inputGroupSelect01">
 
-                                        <div class="input-group mb-4">
-                                            <select name="setor" required id="inputGroupSelect03">
+                                                <option value="" selected disabled hidden>Escolha uma unidade</option>
+
                                                 <script>
-                                                    DoGetSetores(1, function(data) {
+                                                    DoGetUnidades(function(data) {
                                                         for(let i = 0; i < data.length; i++) {
 
-                                                            $('#inputGroupSelect03').append($('<option>', { 
+                                                            $('#inputGroupSelect01').append($('<option>', { 
                                                                 value: data[i].id,
                                                                 text : data[i].nome 
                                                             }));
@@ -180,18 +144,84 @@
                                                 </script>
 
                                             </select>
-                                            <div class="input-group-append">
-                                                <label class="input-group-text" for="inputGroupSelect03">Setor</label>
-                                            </div>
+
+                                        </div>
+
+                                        <div class="input-group mb-4 col-6 mx-auto" id="inputGroup2">
+
+                                                <script>
+                                                    
+                                                    $('#inputGroupSelect01').change(function (e) { 
+                                                        if(!$('#inputGroupSelect02').is('select')){
+                                                        $('#inputGroup2').html(`
+
+                                                        <div class="input-group-prepend">
+                                                                <label class="input-group-text" for="inputGroupSelect02">Setor</label>
+                                                        </div>
+
+                                                        <select name="setor" required id="inputGroupSelect02">
+                                                            <option value="" selected disabled hidden>Escolha um setor</option>
+                                                        </select>`  
+                                                            );
+
+                                                            inputGroup();
+                                                        }
+                                                        $('#inputGroupSelect02').append('');
+
+                                                        let unidade = parseInt($('#inputGroupSelect01').val()) 
+
+                                                        DoGetSetores(unidade,function(data) {
+                                                        for(let i = 0; i < data.length; i++) {
+
+                                                            $('#inputGroupSelect02').append($('<option>', { 
+                                                                value: data[i].id,
+                                                                text : data[i].nome 
+                                                            }));
+                                                        }
+                                                        });
+                                                        
+                                                    });
+
+                                                </script>
+
+                                        </div>
+
+                                    <div class="input-group mb-4 mx-auto col-6" id="inputGroup03">
+
+                                    
+
+                                    <script>
+                                                   function inputGroup(){ 
+                                                    $('#inputGroupSelect02').change(function () { 
+    
+                                                        
+                                                        if(!$('#inputGroupSelect03').is('select')){
+                                                        $('#inputGroup03').html(`
+                                                        
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="inputGroup-sizing-default">Agente</span>
+                                                        </div>
+
+                                                        <select class='form-control'name="Agente" required id="#inputGroupSelect03">
+                                                            <option value="" selected disabled hidden>Escolha uma pessoa como destino (Opcional)</option>
+                                                        </select>`  
+                                                            );
+                                                        }
+                                                       })
+                                                    }
+
+                                                </script>
+
+                                        </select>
                                         </div>
                                     </fieldset>
 
                                 </div>
                             </div>
 
-                            <div class="input-group p-4 col-12">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Descriçao</span>
+                            <div class="input-group mb-4 col-12">
+                                <div class="col-12 p-0">
+                                    <span class="input-group-text text-justify padding-auto"><p class="m-auto ">Descriçao</p></span>
                                 </div>
                                 <textarea name="descricao" required class="form-control" style="height: 100px;" aria-label="With textarea"></textarea>
                             </div>
@@ -199,8 +229,9 @@
                             <div class="col-2 mx-auto">
                                 <button name="abrirProtocolo" type="submit" class="btn btn-primary">Abrir protocolo</button>
                             </div>
+                            </form>
                         </div>
-                    </form>
+                    
 
 
 

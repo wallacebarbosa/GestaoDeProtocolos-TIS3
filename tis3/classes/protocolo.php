@@ -20,6 +20,18 @@ class Protocolo
         return $result;
     }
 
+    public function GetNomeSetor($id)
+    {
+        $db = new Database();
+        $db->Open("gprotocol");
+
+        $query = $db->Query("SELECT `nome` FROM `setor` WHERE `id` = $id");
+        $result = mysqli_fetch_assoc($query);
+        $db->Close();
+
+        return $result['nome'];
+    }
+
     public function GetProtocolosEnvolvidos()
     {
         $db = new Database();
@@ -77,27 +89,40 @@ class Protocolo
         }
     }
 
-    public function GetProtocolosRecebidos($setor_id)
+    public function IsMyProtocoloForwarding($id, $meuSetor)
     {
         $db = new Database();
         $db->Open("gprotocol");
 
-        $query = $db->Query("SELECT * FROM `protocolo` p WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.destinatario_id = $setor_id AND p.id = e.protocolo_id);");
-        $db->Close();
-
-        return $query;
+        $result = mysqli_fetch_assoc($db->Query("SELECT count(*) as total FROM `protocolo` WHERE `id` = $id AND `status` = 'Encaminhado' ;"));
+    
+        if($result['total'] > 0) {
+            $db->Close();
+            return true;
+        } else {
+            $db->Close();
+            return false;
+        }
     }
 
-    public function GetProtocolosEnviados($usr_id)
+    public function IsProtocoloReject($id)
     {
         $db = new Database();
         $db->Open("gprotocol");
 
-        $query = $db->Query("SELECT * FROM `protocolo` WHERE `usuario_id` = $usr_id;");
-        //$db->Close();
+        $result = $db->Query("SELECT count(*) as total FROM `protocolo` WHERE `id` = $id AND `status` = 'Rejeitado';");
+        $result = mysqli_fetch_assoc($result);
 
-        return $query;
+        if($result['total'] > 0) {
+            $db->Close();
+            return true;
+        } else {
+            $db->Close();
+            return false;
+        }
     }
+
+
 }
 
 ?>

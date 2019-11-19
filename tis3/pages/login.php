@@ -16,7 +16,7 @@
     <script src="js/bootstrap.min.js"></script>
 
 </head>
-<body style="background-color: #76b82a ">
+<body >
 
     <?php 
 
@@ -65,23 +65,30 @@
 
 
     <!-- <img id="login_img" src="img/pp.jpg" alt="" srcset="" width="300px" height="150px"> -->
-    <form id="login" class="col-6" method="post" >
-        <h1>Se conecte ao <strong>"Gestão de protocolos"</strong></h1>
-        <div>
-            <label for="login_username">Usuario</label>
-            <input type="text" name="username" class="field col-12" id="login_username" required>
-        </div>
-        <div>
-            <label for="login_password">Senha</label>
-            <input type="password" name="password" class="field col-12" id="login_password" required>
-        </div>
+<div class="col-12 form-login">
 
-        <div class="btn_login">
-            <button name="login" class="col-12" type="submit">Login</button>
-        </div>
 
-        <p class="ver">Gestão de Protocolos v.0.1</p>
+    <div class="col-12 content-login">
+        <img src="./img/LOGOSAOFRANCISCO.png" class="img-fluid" alt="Responsive image" width="400">
+        <form id="login" class="col-6"  method="post" >
+                <h1 style="background-color: #00746b ">Se conecte ao <strong>"Gestão de protocolos"</strong></h1>
+                <div>
+                    <label for="login_username">Usuario</label>
+                    <input type="text" name="username" class="field col-12" id="login_username" required>
+                </div>
+                <div>
+                    <label for="login_password">Senha</label>
+                    <input type="password" name="password" class="field col-12" id="login_password" required>
+                </div>
 
-    </form>
+                <div class="btn_login">
+                    <button name="login" class="col-12" type="submit">Login</button>
+                </div>
+
+                <p class="ver">Gestão de Protocolos v.0.1</p>
+
+        </form>
+    </div>
+</div>
 </body>
 </html>
