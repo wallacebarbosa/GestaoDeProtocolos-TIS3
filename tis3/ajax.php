@@ -52,6 +52,20 @@ if(isset($_POST['setores'])) {
     return;
 }
 
+if(isset($_POST['usuarios'])) {
+    $setor = $_POST['usuarios'];
+
+    $query = mysqli_query($db, "SELECT `id`, `nome` FROM `usuario` WHERE `setor_id` = $setor;");
+
+    $jsonData = array();
+    while ($array = mysqli_fetch_assoc($query)) {
+        $jsonData[] = $array;
+    }
+
+    mysqli_close($db);
+    echo json_encode($jsonData);
+    return;
+}
 
 
 ?>

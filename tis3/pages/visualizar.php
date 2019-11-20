@@ -139,33 +139,44 @@
             <?php
                 if(isset($_POST['aceitarProtocolo'])) {
                     $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                    mysqli_query($db, "UPDATE `protocolo` SET `status` = 'Finalizado' WHERE `id` = '$protocolo_id';");
-
                     mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $remente_id3, $setor_id, 'ACEITAR', NOW());");
                     mysqli_close($db);
-                    //echo '<script>alert("Nao foi possivel aceitar o protocolo");</script>';
                 }
 
                 if(isset($_POST['rejeitarProtocolo'])) {
-                    $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                    mysqli_query($db, "UPDATE `protocolo` SET `status` = 'Rejeitado' WHERE `id` = '$protocolo_id';");
+                    $justificativa = $_POST['justificativa'];
 
-                    mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $remente_id3, $setor_id, 'REJEITAR', NOW());");
-                    mysqli_close($db);
-
-                    //echo '<script>alert("Nao foi possivel rejeitar o protocolo");</script>';
+                    if(strlen($justificativa) < 10)
+                    {
+                        echo '<script>alert("A justificativa precisa ter 10 ou mais caracteres!");</script>';
+                    }
+                    else
+                    {
+                        $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+                        mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`, `justificativa`) VALUES ($protocolo_id, $remente_id3, $setor_id, 'REJEITAR', NOW(), '$justificativa');");
+                        mysqli_close($db);
+                    }
                 }
 
                 if(isset($_POST['encaminharProtocolo'])) {
                     $uni = $_POST['unidade'];
                     $set = $_POST['setor'];
-
                     $mySetor = $_SESSION['user']['setor_id'];
 
-                    $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                    mysqli_query($db, "UPDATE `protocolo` SET `status` = 'Encaminhado', `setor_id` = $set WHERE `id` = '$protocolo_id';");
+                    $agente = 0;
+                    if(isset($_POST['Agente'])) {
+                        $agente = intval($_POST['Agente']);
+                    }
 
-                    mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $mySetor, $set, 'ENCAMINHAR', NOW());");
+                    $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+
+
+                    if($agente > 0) {
+                        mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `dest_tipo`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $mySetor, 'USUARIO', $agente, 'ENCAMINHAR', NOW());");
+                    } else {
+                        mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `dest_tipo`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $mySetor, 'SETOR', $set, 'ENCAMINHAR', NOW());");
+                    }
+                    
                     mysqli_close($db);
                 }
 
@@ -186,9 +197,7 @@
                         {
                             if($protocolo->IsMyProtocolo($protocolo_id, $_SESSION['user']['setor_id']))
                             echo '
-                                
-                                    <input name="editarProtocolo" type="submit" class="btn btn-success" value="Editar">
-                                
+                                <input name="editarProtocolo" type="submit" class="btn btn-success" value="Editar">
                             ';
                         }
 
@@ -201,47 +210,43 @@
 
                 
                 <?php
-                        $protocolo = new Protocolo();
+                    $protocolo = new Protocolo();
 
-                        //  Se o protocolo estiver finalizado Exibe uma menssagem 
-                        
-                        if($protocolo->IsProtocoloAceito($protocolo_id))
-                        {
-                            
-                            echo '
-                                
+                    //  Se o protocolo estiver finalizado Exibe uma menssagem 
+                    if($protocolo->IsProtocoloAceito($protocolo_id))
+                    {
+                        echo ' 
                             <div class="bs-callout bs-callout-success float-left col-12 shadow">
-                                    <h4>Protocolo finalizado</h4>
-                                    Não será possivel fazer nenhuma modificação.
+                                <h4>Protocolo finalizado</h4>
+                                Não será possivel fazer nenhuma modificação.
                             </div>                                
-                            ';
-                        } else {
-                           
-                            if($protocolo->IsMyProtocoloForwarding($protocolo_id, $_SESSION['user']['setor_id'])){
-                                echo '
-                                
-                                <div class="bs-callout bs-callout-warning float-left col-12 shadow">
-                                        <h4>Protocolo Encaminhado</h4>
-                                        Será possivel SOMENTE fazer ediçao ou anexo.
-                                </div>                                
-                                ';
-                            } else{
-                                if($protocolo->IsProtocoloReject($protocolo_id)){
-                                    echo '
-                                
-                                    <div class="bs-callout bs-callout-danger float-left col-12 shadow">
-                                            <h4>Protocolo rejeitado</h4>
-                                            Será possivel SOMENTE fazer ediçao ou anexo.
-                                    </div>                                
-                                    ';   
-                                }
-                            }
+                        ';
+                    } 
+                    else 
+                    {
+                        $status = $protocolo->GetProtocoloStatus($protocolo_id);
+                    
+                        if($status == "Encaminhado") 
+                        {
+                            echo '
+                            <div class="bs-callout bs-callout-warning float-left col-12 shadow">
+                                <h4>Protocolo Encaminhado</h4>
+                                Será possivel SOMENTE fazer ediçao ou anexo.
+                            </div>                                
+                        ';
+                        } 
+                        elseif($status == "Rejeitado")
+                        {
+                            echo '
+                            <div class="bs-callout bs-callout-danger float-left col-12 shadow">
+                                <h4>Protocolo rejeitado</h4>
+                                Será possivel SOMENTE fazer ediçao ou anexo.
+                            </div>                                
+                        ';   
                         }
+                    }
 
-                        
-
-
-                    ?>  
+                ?>  
 
 
 
@@ -267,8 +272,6 @@
                                 
                             ';
                         }
-
-
                     ?> 
 
                     <li class="nav-item">
@@ -384,13 +387,13 @@
 
                                             
                                             <div class="input-group mb-3">
-                                                <select name="unidade" required id="inputGroupSelect02">
+                                                <select name="unidade" required id="inputUnidades">
 
                                                 <script>
                                                     DoGetUnidades(function(data) {
                                                         for(let i = 0; i < data.length; i++) {
 
-                                                            $('#inputGroupSelect02').append($('<option>', { 
+                                                            $('#inputUnidades').append($('<option>', { 
                                                                 value: data[i].id,
                                                                 text : data[i].nome 
                                                             }));
@@ -400,29 +403,98 @@
 
                                                 </select>
                                                 <div class="input-group-append">
-                                                    <label class="input-group-text" for="inputGroupSelect02">Unidade</label>
+                                                    <label class="input-group-text" for="inputUnidades">Unidade</label>
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-4">
-                                                <select name="setor" required id="inputGroupSelect03">
+                                            
+                                                <select name="setor" required id="inputSetor">
+                                                
+                                    
                                                     <script>
-                                                        DoGetSetores(function(data) {
-                                                            for(let i = 0; i < data.length; i++) {
 
-                                                                $('#inputGroupSelect03').append($('<option>', { 
+                                                        DoGetSetores(1, function(data) {
+                                                            $('#inputSetor').empty().append('<option value="" selected disabled hidden>Escolha um setor</option>');
+
+                                                            for(let i = 0; i < data.length; i++) {
+                                                                $('#inputSetor').append($('<option>', { 
                                                                     value: data[i].id,
                                                                     text : data[i].nome 
                                                                 }));
                                                             }
                                                         });
+
+
+                                                        $('#inputUnidades').change(function (e) { 
+
+                                                            let unidade = parseInt($('#inputUnidades').val()) 
+
+                                                            DoGetSetores(unidade, function(data) {
+                                                                $('#inputSetor').empty().append('<option value="" selected disabled hidden>Escolha um setor</option>');
+
+                                                                for(let i = 0; i < data.length; i++) {
+                                                                    $('#inputSetor').append($('<option>', { 
+                                                                        value: data[i].id,
+                                                                        text : data[i].nome 
+                                                                    }));
+                                                                }
+                                                            });
+                                                        });
+
+
+                                                        $('#inputSetor').change(function () { 
+
+                                                          
+                                                                $('#inputGroup03').html(`
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text" id="inputGroup-sizing-default">Agente</span>
+                                                                    </div>
+
+                                                                    <select class='form-control'name="Agente" id="inputAgente">
+                                                                        <option value="" selected disabled hidden>Escolha uma pessoa como destino (Opcional)</option>
+                                                                    </select>`  
+                                                                        );
+                                                                
+
+                                                            let setor = parseInt($('#inputSetor').val());
+                                                            console.log(setor);
+
+                                                            DoGetUsuarios(setor, function(data) {
+                                                                $('#inputAgente').empty().append('<option value="" selected disabled hidden>Escolha uma pessoa como destino (Opcional)</option>');
+                                                                
+                                                                console.log(data);
+                                                                for(let i = 0; i < data.length; i++) {
+                                                                    
+                                                                    $('#inputAgente').append($('<option>', { 
+                                                                        value: data[i].id,
+                                                                        text : data[i].nome 
+                                                                    }));
+                                                                }
+
+                                                            });
+
+                                                    })
+
+                                                        
                                                     </script>
 
                                                 </select>
                                                 <div class="input-group-append">
                                                     <label class="input-group-text" for="inputGroupSelect03">Setor</label>
                                                 </div>
+
+                                                
                                             </div>
+
+                                            <div class="input-group mb-4" id="inputGroup03">
+
+                                            </div>   
+                                                    
+                                            
+
+
+
                                         </fieldset>
 
                                     </div>
@@ -463,7 +535,7 @@
       
                                                     
                                                     <div class="input-group p-4 col-12">
-                                                        <textarea name="descricao" required class="form-control" style="height: 100px;" aria-label="With textarea"></textarea>
+                                                        <textarea name="justificativa" required class="form-control" style="height: 100px;" aria-label="With textarea"></textarea>
                                                     </div>
                                                 
                                             </div>
@@ -474,7 +546,7 @@
                             <div class="modal-footer">
                                 <input type="submit" class="btn btn-secondary" data-dismiss="modal" value="Cancelar">
                                 <form action="" method="post">
-                                    <input name="encaminharProtocolo" type="submit" class="btn btn-primary" value="Rejeitar" >
+                                    <input name="rejeitarProtocolo" type="submit" class="btn btn-primary" value="Rejeitar" >
                                 </form>
                             </div>
                             </div>
@@ -493,6 +565,13 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Aplicar</button>
                     </div>
+
+
+                     <script>
+                         $(function () {
+    $('[data-toggle="popover"]').popover()
+})
+                     </script>                                   
 
                     <!-- aba rastreamento -->
                     <div class="tab-pane" role="tabpanel" id="rastrear">
@@ -521,7 +600,7 @@
                                             case "REJEITAR":
                                                 echo '<img src="./img/reject-64px.png">';
                                                 echo '<strong>Protocolo rejeitado</strong>';
-                                                echo '<button type="button" class="btn btn-info ml-3"><i class="fa fa-info-circle"></i></button>';
+                                                echo '<button type="button" class="btn btn-info ml-3" data-toggle="popover" title="Justificativa" data-content="'.$row['justificativa'].'"><i class="fa fa-info-circle"></i></button>';
                                                 break;
                                             case "ACEITAR":
                                                 echo '<img src="./img/confirmation-64px.png">';

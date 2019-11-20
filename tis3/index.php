@@ -21,12 +21,24 @@ if(!isset($_SESSION['user'])) {
     // faz o handle das requisicoes
     if(!isset($_GET['module'])) {
         // redireciona para a pagina padrao
-        include_once("pages/main.php");
+        include_once("pages/p_recebidos.php");
     } else {
         $module = $_GET['module'];
 
         // redireciona para a pagina requisitada
         switch($module) {
+            case "p_recebidos":
+                include_once("pages/p_recebidos.php");
+                break;
+            case "p_rejeitados":
+                include_once("pages/p_rejeitados.php");
+                break;
+            case "p_finalizados":
+                include_once("pages/p_finalizados.php");
+                break;
+            case "p_encaminhados":
+                include_once("pages/p_encaminhados.php");
+                break;
             case "abrir":
                 include_once("pages/abrir.php");
                 break;
@@ -41,7 +53,7 @@ if(!isset($_SESSION['user'])) {
                 header("Location: index.php");
                 break;
             default:
-                include_once("pages/main.php");
+                include_once("pages/p_recebidos.php");
                 break;
         }
 

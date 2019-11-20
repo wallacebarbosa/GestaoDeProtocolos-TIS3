@@ -79,7 +79,7 @@ class Protocolo
         $db = new Database();
         $db->Open("gprotocol");
 
-        $result = $db->Query("SELECT * FROM `encaminhamento` WHERE `protocolo_id` = $id AND `destinatario_id` = $meuSetor ORDER BY `data` DESC LIMIT 1;");
+        $result = $db->Query("SELECT * FROM `encaminhamento` WHERE `protocolo_id` = $id AND `destinatario_id` = $meuSetor AND `tipo` != 'REJEITAR' ORDER BY `data` DESC LIMIT 1;");
         if($db->RowsQuery($result) > 0) {
             $db->Close();
             return true;
@@ -120,6 +120,50 @@ class Protocolo
             $db->Close();
             return false;
         }
+    }
+
+
+    public function GetProtocoloStatus($protocolo_id)
+    {
+        $db = new Database();
+        $db->Open("gprotocol");
+
+        $retorno = "";
+
+        $query = $db->Query("SELECT * FROM `encaminhamento` WHERE `protocolo_id` = $protocolo_id ORDER BY `data` DESC LIMIT 1;");
+        if($db->RowsQuery($query) > 0) 
+        {
+            $result = mysqli_fetch_assoc($query);
+
+            $tipo = $result['tipo'];
+
+            switch($tipo)
+            {
+                case "ENCAMINHAR":
+                    $retorno = "Encaminhado";
+                    break;
+
+                case "REJEITAR":
+                    $retorno = "Rejeitado";
+                    break;
+
+                case "ACEITAR":
+                    $retorno = "Aceito";
+                    break;
+
+                case "CRIAR":
+                    $retorno = "Criado";
+                    break;
+
+                default:
+                    $retorno = "Criado";
+                    break;
+            }
+        }
+
+        $db->Close();
+
+        return $retorno;
     }
 
 

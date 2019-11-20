@@ -274,7 +274,6 @@ width: 100%;
 }
 
 #tab-control ul a:hover {
-	background-color: 	;
 	color: black;
 
 }
@@ -327,6 +326,9 @@ th {
 	color: white;
 }
 
+#table-protocolos td:hover {
+	cursor: pointer;
+}
 
 /* Footer */
 #footer {
