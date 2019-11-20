@@ -41,7 +41,7 @@
 <div id="header" class="col-12 p-3">
             <div>
                <a href="index.php"><img src="./img/Logo branca.png" class="rounded float-left m-1" width="200px"></a>
-               <button class="btn btn-outline-success my-2 my-sm-0 float-right mt-md-3" style="border: none;" id="search" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch"><img src="./img/icons8-search-50.png" alt=""></button>
+               <!-- <button class="btn btn-outline-success my-2 my-sm-0 float-right mt-md-3" style="border: none;" id="search" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch"><img src="./img/icons8-search-50.png" alt=""></button> -->
 
                <ul class="nav justify-content-end float-right p-4">
                 <li class="nav-item">
@@ -52,10 +52,10 @@
                         <a class="nav-link active text-light dropdown-toggle" href="#" id="menuUser" style="border: none;"data-flip="true" data-boundary="header" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent"><span><img src="./img/icons8-user-24.png" alt=""></span></a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="MenuUser" style="filter: blur(0px);">
-                        <a class="dropdown-item" href="#">Informaçoes</a>
-                        <a class="dropdown-item" href="#">Configurações</a>
+                        <a class="dropdown-item" href="?module=myinfo">Informaçoes</a>
+                        <a class="dropdown-item" href="?module=configuracoes">Configurações</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">LogOut</a>
+                        <a class="dropdown-item" href="?module=logout">LogOut</a>
                         </div>
                 </li>
             

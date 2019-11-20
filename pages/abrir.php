@@ -2,8 +2,6 @@
 
 <div id="wrap">
 
-
-
     <!-- container -->
     <div id="container" style="padding-bottom:10px;">
         <div class="m-2 col-12  ">
@@ -79,7 +77,6 @@
                     <?php
                         if(isset($_POST['abrirProtocolo'])) {
                             $titulo = $_POST['titulo'];
-                            $data = $_POST['data'];
                             $destUnidade = $_POST['unidade'];
                             $destSetor = $_POST['setor'];
                             $desc = $_POST['descricao'];
@@ -87,12 +84,23 @@
                             $user_id = $_SESSION['user']['id'];
                             $mySetor = $_SESSION['user']['setor_id'];
 
+                            $agente = 0;
+                            if(isset($_POST['Agente'])) {
+                                $agente = intval($_POST['Agente']);
+                            }
+
+
 
                             $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                            mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `status`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), 'Aberto' ,$user_id, $destSetor, '$desc');");
+                            mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), $user_id, $destSetor, '$desc');");
                             $last_inserted = mysqli_insert_id($db);
                             
-                            mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($last_inserted, $mySetor, $destSetor, 'CRIAR', NOW());");
+                            if($agente > 0) {
+                                mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `dest_tipo`, `destinatario_id`, `tipo`, `data`) VALUES ($last_inserted, $mySetor, 'USUARIO', $agente, 'CRIAR', NOW());");
+                            } else {
+                                mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `dest_tipo`, `destinatario_id`, `tipo`, `data`) VALUES ($last_inserted, $mySetor, 'SETOR', $destSetor, 'CRIAR', NOW());");
+                            }
+
                             mysqli_close($db);
 
                             echo '<script>alert("Protocolo aberto com sucesso!");</script>';
@@ -101,7 +109,6 @@
 
 
                     <!-- aba informações -->
-
                         <div class="tab-pane active" role="tabpanel" id="info" aria-labelledby="info-tab">
                         <form action="" method="post" class="float-left p-4">                          
                           <h3 class="float-left col-12">Preencha os campos</h3>
@@ -201,7 +208,7 @@
                                                     <span class="input-group-text" id="inputGroup-sizing-default">Agente</span>
                                                 </div>
 
-                                                <select class='form-control'name="Agente" required id="inputGroupSelect03">
+                                                <select class='form-control'name="Agente" id="inputGroupSelect03">
                                                     <option value="" selected disabled hidden>Escolha uma pessoa como destino (Opcional)</option>
                                                 </select>`  
                                                     );

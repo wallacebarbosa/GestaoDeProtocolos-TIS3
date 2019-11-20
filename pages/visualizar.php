@@ -161,11 +161,22 @@
                 if(isset($_POST['encaminharProtocolo'])) {
                     $uni = $_POST['unidade'];
                     $set = $_POST['setor'];
-
                     $mySetor = $_SESSION['user']['setor_id'];
 
+                    $agente = 0;
+                    if(isset($_POST['Agente'])) {
+                        $agente = intval($_POST['Agente']);
+                    }
+
                     $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                    mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $mySetor, $set, 'ENCAMINHAR', NOW());");
+
+
+                    if($agente > 0) {
+                        mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `dest_tipo`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $mySetor, 'USUARIO', $agente, 'ENCAMINHAR', NOW());");
+                    } else {
+                        mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `dest_tipo`, `destinatario_id`, `tipo`, `data`) VALUES ($protocolo_id, $mySetor, 'SETOR', $set, 'ENCAMINHAR', NOW());");
+                    }
+                    
                     mysqli_close($db);
                 }
 
@@ -376,13 +387,13 @@
 
                                             
                                             <div class="input-group mb-3">
-                                                <select name="unidade" required id="inputGroupSelect02">
+                                                <select name="unidade" required id="inputUnidades">
 
                                                 <script>
                                                     DoGetUnidades(function(data) {
                                                         for(let i = 0; i < data.length; i++) {
 
-                                                            $('#inputGroupSelect02').append($('<option>', { 
+                                                            $('#inputUnidades').append($('<option>', { 
                                                                 value: data[i].id,
                                                                 text : data[i].nome 
                                                             }));
@@ -392,29 +403,98 @@
 
                                                 </select>
                                                 <div class="input-group-append">
-                                                    <label class="input-group-text" for="inputGroupSelect02">Unidade</label>
+                                                    <label class="input-group-text" for="inputUnidades">Unidade</label>
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-4">
-                                                <select name="setor" required id="inputGroupSelect03">
+                                            
+                                                <select name="setor" required id="inputSetor">
+                                                
+                                    
                                                     <script>
-                                                        DoGetSetores(function(data) {
-                                                            for(let i = 0; i < data.length; i++) {
 
-                                                                $('#inputGroupSelect03').append($('<option>', { 
+                                                        DoGetSetores(1, function(data) {
+                                                            $('#inputSetor').empty().append('<option value="" selected disabled hidden>Escolha um setor</option>');
+
+                                                            for(let i = 0; i < data.length; i++) {
+                                                                $('#inputSetor').append($('<option>', { 
                                                                     value: data[i].id,
                                                                     text : data[i].nome 
                                                                 }));
                                                             }
                                                         });
+
+
+                                                        $('#inputUnidades').change(function (e) { 
+
+                                                            let unidade = parseInt($('#inputUnidades').val()) 
+
+                                                            DoGetSetores(unidade, function(data) {
+                                                                $('#inputSetor').empty().append('<option value="" selected disabled hidden>Escolha um setor</option>');
+
+                                                                for(let i = 0; i < data.length; i++) {
+                                                                    $('#inputSetor').append($('<option>', { 
+                                                                        value: data[i].id,
+                                                                        text : data[i].nome 
+                                                                    }));
+                                                                }
+                                                            });
+                                                        });
+
+
+                                                        $('#inputSetor').change(function () { 
+
+                                                          
+                                                                $('#inputGroup03').html(`
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text" id="inputGroup-sizing-default">Agente</span>
+                                                                    </div>
+
+                                                                    <select class='form-control'name="Agente" id="inputAgente">
+                                                                        <option value="" selected disabled hidden>Escolha uma pessoa como destino (Opcional)</option>
+                                                                    </select>`  
+                                                                        );
+                                                                
+
+                                                            let setor = parseInt($('#inputSetor').val());
+                                                            console.log(setor);
+
+                                                            DoGetUsuarios(setor, function(data) {
+                                                                $('#inputAgente').empty().append('<option value="" selected disabled hidden>Escolha uma pessoa como destino (Opcional)</option>');
+                                                                
+                                                                console.log(data);
+                                                                for(let i = 0; i < data.length; i++) {
+                                                                    
+                                                                    $('#inputAgente').append($('<option>', { 
+                                                                        value: data[i].id,
+                                                                        text : data[i].nome 
+                                                                    }));
+                                                                }
+
+                                                            });
+
+                                                    })
+
+                                                        
                                                     </script>
 
                                                 </select>
                                                 <div class="input-group-append">
                                                     <label class="input-group-text" for="inputGroupSelect03">Setor</label>
                                                 </div>
+
+                                                
                                             </div>
+
+                                            <div class="input-group mb-4" id="inputGroup03">
+
+                                            </div>   
+                                                    
+                                            
+
+
+
                                         </fieldset>
 
                                     </div>
