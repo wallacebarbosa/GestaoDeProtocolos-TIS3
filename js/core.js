@@ -68,6 +68,13 @@ function DoRequestProtocolos(callback)
     });
 }
 
+function DoRequestProtocolo(id,callback)
+{
+    $.post("ajax.php", {protocolo: id}, function(data) {
+        callback(JSON.parse(data));
+    });
+}
+
 function DoGetSetores(unidade_id, callback) 
 {
     $.post("ajax.php", {setores: unidade_id}, function(data) {

@@ -67,5 +67,19 @@ if(isset($_POST['usuarios'])) {
     return;
 }
 
+if(isset($_POST['protocolo'])) {
+    $protocolo_iD = $_POST['protocolo'];
+    $query = mysqli_query($db, "SELECT * FROM `protocolo` WHERE `id` = $protocolo_iD;");
+
+    $jsonData = array();
+    while ($array = mysqli_fetch_assoc($query)) {
+        $jsonData[] = $array;
+    }
+
+    mysqli_close($db);
+    echo json_encode($jsonData);
+    return;
+}
+
 
 ?>
