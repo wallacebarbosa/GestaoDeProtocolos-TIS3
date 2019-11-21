@@ -1,5 +1,5 @@
 <nav id="menu_v" class=" nav flex-column float-left col-2">
-    <ul class="mx-auto col-11 form">
+    <ul class="mx-auto col-11 form ">
 
         <li data-toggle="collapse" data-target="#tgprotocolos" class="collapsed selected">
             <a class="profile" href="#"><i class="fa fa-user fa-lg"></i>Meus protocolos<span class="arrow"></span></a>

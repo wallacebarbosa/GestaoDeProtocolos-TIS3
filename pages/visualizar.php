@@ -46,9 +46,8 @@
 
         <div id="content" class="float-left col-10">
 
-
+        
             <!-- visualizar protocolo -->
-
             <?php
 
                 // usuario
@@ -97,6 +96,7 @@
                 }
 
                 $protocolo_id = $_GET['id'];
+                $my_id = $_SESSION['user']['id'];
 
                 $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
                 $query = mysqli_query($db, "SELECT * FROM `protocolo` WHERE `id` = $protocolo_id;");
@@ -135,6 +135,37 @@
                 $unidadeDestino = GetUnidadeByID($setorDestino['unidade_id']);
                 $unidade_destino_nome = $unidadeDestino['nome'];
             ?>
+
+            <?php
+                if(isset($_FILES['fileuser']['name'])) 
+                {
+                    $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+
+                    $fpath = $_FILES['fileuser']['name'];
+                    $path_parts = pathinfo($fpath);
+
+
+                    $fext = $path_parts['extension'];
+                    $fname = md5(time()).'.'.$path_parts['extension'];
+
+
+                    $fne = $path_parts['filename'].'.'.$path_parts['extension'];
+
+                    if (move_uploaded_file($_FILES['fileuser']['tmp_name'], 'uploads/'.$fname)) {
+                        mysqli_query($db, "INSERT INTO `anexo` (`protocolo_id`, `user_id`, `nome`, `url`, `date`) VALUES ($protocolo_id, $my_id, '$fne', '$fname', NOW());");
+
+                        // echo "Arquivo válido e enviado com sucesso.\n";
+                    } else {
+                        // echo "Possível ataque de upload de arquivo!\n";
+                    }
+                    
+
+                    mysqli_close($db);
+                }
+            
+            ?>
+
+
 
             <?php
                 if(isset($_POST['aceitarProtocolo'])) {
@@ -249,6 +280,8 @@
                 ?>  
 
 
+    
+
 
 
                 <!-- Criação das abas -->
@@ -259,20 +292,12 @@
                         <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Informações</a>
                     </li>
 
-                    <?php
-                        $protocolo = new Protocolo();
-                        if(!$protocolo->IsProtocoloAceito($protocolo_id))
-                        {
-                            if($protocolo->IsMyProtocolo($protocolo_id, $_SESSION['user']['setor_id']))
-                            echo '
+                
+                    <li class="nav-item">
+                        <a class="nav-link" id="anexar-tab" data-toggle="tab" href="#anexar" role="tab" aria-controls="anexar" aria-selected="false">Anexos</a>
+                    </li>
                                 
-                            <li class="nav-item">
-                            <a class="nav-link" id="anexar-tab" data-toggle="tab" href="#anexar" role="tab" aria-controls="anexar" aria-selected="false">Anexar</a>
-                            </li>
-                                
-                            ';
-                        }
-                    ?> 
+                
 
                     <li class="nav-item">
                         <a class="nav-link" id="rastrear-tab" data-toggle="tab" href="#rastrear" role="tab" aria-controls="rastrear" aria-selected="false">Rastrear</a>
@@ -556,14 +581,70 @@
 
                     <!-- aba Anexar arquivo -->
                     <div class="tab-pane" role="tabpanel" id="anexar">
-                        <h3>Anexar Arquivo</h3>
+                        <h3>Anexos</h3>
 
-                        <div class="element-file"><label class="title"></label>
-                            <div class="item-cont"><label class="large">
-                                    <div class="button">Selecionar arquivo</div><input type="file" class="file_input" name="file" />
-                                </label></div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Aplicar</button>
+                         <table>
+                            <tr>
+                                <th>#</th>
+                                <th>Usuario</th> 
+                                <th>Nome</th>
+                                <th>Download</th>
+                            </tr>
+
+                           <?php
+                            $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+                            mysqli_set_charset($db, "utf8");
+
+
+                            $query = mysqli_query($db, "SELECT * FROM `anexo` WHERE `protocolo_id` = $protocolo_id;");
+                            
+                            while($row = mysqli_fetch_assoc($query)) 
+                            {
+                                $user = GetUsuarioByID($remetente_id);
+
+
+                                echo '<tr>';
+                                    echo '<td>'.$row['id'].'</td>';
+                                    echo '<td>'.$user['nome'].'</td>';
+                                    echo '<td>'.$row['nome'].'</td>';
+                                    echo '<td><a target="_blank" href="uploads/'.$row['url'].'">Download</a></td>';
+                                echo "</tr>";
+                            }
+
+                            mysqli_close($db);
+
+                            ?>
+                        </table>                           
+
+
+                            <?php
+                                $protocolo = new Protocolo();
+
+                                if(!$protocolo->IsProtocoloAceito($protocolo_id))
+                                {
+                                    if($protocolo->IsMyProtocolo($protocolo_id, $_SESSION['user']['setor_id']))
+                                    {
+                                        echo '<form enctype="multipart/form-data" action="" method="post" class="float-left p-4">';
+
+
+                                            echo '<div class="element-file"><label class="title"></label>
+                                                <div class="item-cont"><label class="large">
+                                                    <input type="hidden" name="MAX_FILE_SIZE" value="16000000"/>
+                                                    <input type="hidden" name="file_upload" value="OK"/>
+                                                    <div class="button">Selecionar arquivo</div><input type="file" class="file_input" name="fileuser" />
+                                                </label></div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Aplicar</button>
+                                        ';
+
+
+                                        echo "</form>";
+
+                                    }
+
+                                }
+                            ?>
+                                
                     </div>
 
 
@@ -617,7 +698,7 @@
                                         $destino = GetSetorByID($desinatario_id2);
                                         $uni_destino = GetUnidadeByID($destino['unidade_id']);
 
-                                        echo '<br><p>SETOR <a href="#">'.$origem['nome'].'</a> para o setor <a href="#">'.$destino['nome'].'</a> da unidade <a href="#">'.$uni_destino['nome'].'</a></p> <br>';
+                                        echo '<br><p>SETOR <a href="?module=setor&id='.$origem['id'].'">'.$origem['nome'].'</a> para o setor <a href="?module=setor&id='.$destino['id'].'">'.$destino['nome'].'</a> da unidade <a href="#">'.$uni_destino['nome'].'</a></p> <br>';
 
                                     echo '</li>';
                                 }

@@ -1,3 +1,5 @@
+
+
 <div id="wrap">
 
     <!-- container -->
@@ -63,9 +65,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Informações</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="anexar-tab" data-toggle="tab" href="#anexar" role="tab" aria-controls="anexar" aria-selected="false">Anexar</a>
-                    </li>
                 </ul>
                 </div>
 
@@ -87,8 +86,6 @@
                                 $agente = intval($_POST['Agente']);
                             }
 
-
-
                             $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
                             mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), $user_id, $destSetor, '$desc');");
                             $last_inserted = mysqli_insert_id($db);
@@ -99,6 +96,27 @@
                                 mysqli_query($db, "INSERT INTO `encaminhamento` (`protocolo_id`, `remetente_id`, `dest_tipo`, `destinatario_id`, `tipo`, `data`) VALUES ($last_inserted, $mySetor, 'SETOR', $destSetor, 'CRIAR', NOW());");
                             }
 
+                            
+
+                            if(isset( $_FILES["userfile"] ) && !empty( $_FILES["userfile"]["name"])) {
+                                $fpath = $_FILES['userfile']['name'];
+                                $path_parts = pathinfo($fpath);
+
+
+                                $fext = $path_parts['extension'];
+                                $fname = md5(time()).'.'.$path_parts['extension'];
+
+
+                                $fne = $path_parts['filename'].'.'.$path_parts['extension'];
+
+                                if (move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/'.$fname)) {
+                                    mysqli_query($db, "INSERT INTO `anexo` (`protocolo_id`, `user_id`, `nome`, `url`, `date`) VALUES ($last_inserted, $user_id, '$fne', '$fname', NOW());");
+                                } else {
+                                    
+                                }
+                            }
+                            
+
                             mysqli_close($db);
 
                             echo '<script>alert("Protocolo aberto com sucesso!");</script>';
@@ -108,7 +126,7 @@
 
                     <!-- aba informações -->
                         <div class="tab-pane active" role="tabpanel" id="info" aria-labelledby="info-tab">
-                        <form action="" method="post" class="float-left p-4">                          
+                        <form enctype="multipart/form-data" action="" method="post" class="float-left p-4">                          
                           <h3 class="float-left col-12">Preencha os campos</h3>
                             <div class="col-12 mt-5 float-left">
                                 <div class="input-group mb-4 mx-auto col-6 ">
@@ -248,6 +266,13 @@
                                 <textarea name="descricao" required class="form-control" style="height: 100px;" aria-label="With textarea"></textarea>
                             </div>
 
+                            <div class="element-file"><label class="title"></label>
+                                <div class="item-cont"><label class="large">
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="16000000"/>
+                                    <div class="button">Selecionar arquivo</div><input type="file" class="file_input" name="userfile" />
+                                </label></div>
+                            </div>
+
                             <div class="col-2 mx-auto">
                                 <button name="abrirProtocolo" type="submit" class="btn btn-primary">Abrir protocolo</button>
                             </div>
@@ -255,31 +280,6 @@
                         </div>
                     
 
-
-
-                    <!-- aba Anexar arquivo -->
-                    <div class="tab-pane" role="tabpanel" id="anexar" aria-labelledby="anexar-tab">
-                        <h3>Anexar Arquivo</h3>
-                    <div class="m-3">
-                    <img src="./img/20171121145015!Docs_icon.fw.png" alt="..." class="rounded" width="75" class="d-block m-auto">
-                    <p class="mt-2">sem titulo.png</p>
-                    </div>
-                        
-
-                        <div class="element-file"><label class="title"></label>
-                            <div class="item-cont"><label class="large">
-                                    <div class="button">Selecionar arquivo</div><input type="file" class="file_input" name="file" />
-                                </label></div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Aplicar</button>
-                    </div>
-
-                    <!-- abas Futuras -->
-                    <div class="tab-pane" role="tabpanel" id="alterar">
-                        <h3>Aba Futura...</h3>
-                        <p>Aqui lugar para adicionar novas abas futuramente.</p>
-
-                    </div>
                 </div>
 
             </div>
