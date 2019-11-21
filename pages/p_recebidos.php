@@ -50,13 +50,13 @@
                         <h1>Protocolos Recebidos</h1>
                         <p class="lead">Meus protocolos</p>
                 </div>
-                <button type="button" class="btn btn-info float-left m-4">Relatorio de entrega</button> 
+                <button id="modalRelatorio" type="button" class="btn btn-info float-left m-4" data-toggle="modal" data-target="#exampleModal">Relatorio de entrega <span class="badge badge-light"></button> 
                 </div>
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Adicione os protocolos que deseje entregar</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
@@ -80,8 +80,8 @@
                             </table>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Send message</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-primary">Gerar Relatorio</button>
                             </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                                     <div class="search-box">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
-                                            <input type="text" class="form-control" placeholder="Search&hellip;">
+                                            <input type="text" class="form-control" placeholder="Pesquisar&hellip;">
                                         </div>
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@
                                     <th>Remetente<i class="fa fa-sort"></i></th>
                                     <th>Data<i class="fa fa-sort"></i></th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>Ações</th>
                                 </tr>
    
                             </thead>
@@ -135,6 +135,7 @@
                                 $mySetor = $_SESSION['user']['setor_id'];
                                 $query = mysqli_query($db, "SELECT * FROM `protocolo` P WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.destinatario_id = $mySetor );");
                                 
+                                $rowsCount = mysqli_num_rows($query);
                                
                                 while($row = mysqli_fetch_assoc($query)) {
                                     $i = $row['id'];
@@ -168,15 +169,15 @@
                             </tbody>
                         </table>
                         <div class="clearfix">
-                            <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                        <div class="hint-text">Mostrando <b><?php echo $rowsCount; ?></b> de <b><?php echo $rowsCount; ?></b> resultados</div>
                             <ul class="pagination">
-                                <li class="page-item disabled"><a href="#">Previous</a></li>
-                                <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                                <li class="page-item"><a href="#">Anterior</a></li>
+                                <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                                <!-- <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                <li class="page-item"><a href="#" class="page-link">3</a></li>
                                 <li class="page-item"><a href="#" class="page-link">4</a></li>
-                                <li class="page-item"><a href="#" class="page-link">5</a></li>
-                                <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                                <li class="page-item"><a href="#" class="page-link">5</a></li> -->
+                                <li class="page-item"><a href="#" class="page-link">Proximo</a></li>
                             </ul>
                         </div>
                     </div>               
@@ -230,16 +231,5 @@
             })
             console.log(i)
             }
-
-            function removeListRelatorio(id) { 
-
-                $(`#row${id}`).remove()
-
-                $('#modalRelatorio').html(`Relatorio de entrega <span class="badge badge-light">${--i}</span>`)
-                protocolosListR = protocolosListR.filter(function(item) {
-                    return item !== id
-                })
-                console.log(i)
-                }
     </script>
 

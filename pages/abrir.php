@@ -1,5 +1,3 @@
-
-
 <div id="wrap">
 
     <!-- container -->
@@ -92,7 +90,7 @@
 
 
                             $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                            mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `status`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), 'Aberto' ,$user_id, $destSetor, '$desc');");
+                            mysqli_query($db, "INSERT INTO `protocolo` (`titulo`, `dataCriacao`, `usuario_id`, `setor_id`, `descricao`) VALUES ('$titulo', NOW(), $user_id, $destSetor, '$desc');");
                             $last_inserted = mysqli_insert_id($db);
                             
                             if($agente > 0) {
@@ -262,6 +260,11 @@
                     <!-- aba Anexar arquivo -->
                     <div class="tab-pane" role="tabpanel" id="anexar" aria-labelledby="anexar-tab">
                         <h3>Anexar Arquivo</h3>
+                    <div class="m-3">
+                    <img src="./img/20171121145015!Docs_icon.fw.png" alt="..." class="rounded" width="75" class="d-block m-auto">
+                    <p class="mt-2">sem titulo.png</p>
+                    </div>
+                        
 
                         <div class="element-file"><label class="title"></label>
                             <div class="item-cont"><label class="large">
@@ -283,3 +286,7 @@
         </div>
     </div>
 </div>
+
+<script>
+ChangeFocusMenu(1);
+</script>

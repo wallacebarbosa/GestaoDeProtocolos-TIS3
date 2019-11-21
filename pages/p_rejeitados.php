@@ -41,59 +41,153 @@
 
 
         <div id="content" class="float-left col-10">
-
-
-           <!-- conteudo protocolos -->
-           <div class="tab-content" id="content-protocolos">
+<!-- conteudo protocolos -->
+<div class="tab-content" id="content-protocolos">
            <div class="page-header px-5 py-1">
-                <div class="float-left my-2 col-10">
-                        <h1>Protocolos Rejeitados</h1>
+                <div class="float-left my-2 col-9">
+                        <h1>Protocolos Recebidos</h1>
                         <p class="lead">Meus protocolos</p>
                 </div>
                 <button type="button" class="btn btn-info float-left m-4">Relatorio de entrega</button> 
                 </div>
-                <table id="table-protocolos">
-                    <tr>
-                        <th>#</th>
-                        <th>Titulo</th>
-                        <th>Setor</th>
-                        <th>Data</th>
-                        <th>Status</th>
-                    </tr>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                            <table class="table" id="table-cart">
+                            <thead>
 
-                    <?php
-                        $cProtocolo = new Protocolo();
+                                <tr>
+                                    <th>#</th>
+                                    <th>Titulo<i class="fa fa-sort"></i></th>
+                                    <th>Remetente<i class="fa fa-sort"></i></th>
+                                    <th>Data<i class="fa fa-sort"></i></th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+   
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Send message</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
 
-                        $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
-                        $mySetor = $_SESSION['user']['setor_id'];
-                        $query = mysqli_query($db, "SELECT * FROM `protocolo` P WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.destinatario_id = $mySetor );");
+                    <div class="table-wrapper col-12">			
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-4 ml-4">
+                                    <div class="show-entries">
+                                        <span>Mostrar</span>
+                                        <select>
+                                            <option>5</option>
+                                            <option>10</option>
+                                            <option>15</option>
+                                            <option>20</option>
+                                        </select>
+                                        <span>Entradas</span>
+                                    </div>						
+                                </div>
 
-                        while($row = mysqli_fetch_assoc($query)) {
-                            $i = $row['id'];
-                            $status = $cProtocolo->GetProtocoloStatus($i);
+                                <div class="col-sm-7">
+                                    <div class="search-box">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
+                                            <input type="text" class="form-control" placeholder="Pesquisar&hellip;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
 
-                            if($status == "Rejeitado") {
+                                <tr>
+                                    <th>#</th>
+                                    <th>Titulo<i class="fa fa-sort"></i></th>
+                                    <th>Remetente<i class="fa fa-sort"></i></th>
+                                    <th>Data<i class="fa fa-sort"></i></th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+   
+                            </thead>
+                            <tbody>
 
-                                $scriptAction = "window.location = '?module=protocolo&id=".$i."';";
+                            <?php
+                                $cProtocolo = new Protocolo();
 
-                                echo '<tr onclick="'.$scriptAction.'">';
-                                echo '<td>'.$i.'</td>';
+                                $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
+                                $mySetor = $_SESSION['user']['setor_id'];
+                                $query = mysqli_query($db, "SELECT * FROM `protocolo` P WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.destinatario_id = $mySetor ) LIMIT 5;");
+                                
+                                $rowsCount = 0;
+                               
+                                while($row = mysqli_fetch_assoc($query)) {
+                                    $i = $row['id'];
+                                    $status = $cProtocolo->GetProtocoloStatus($i);
 
-                                echo '<td>'.$row['titulo'].'</td>';
-                                echo '<td>'.$cProtocolo->GetNomeSetor($row['setor_id']).'</td>';
-                                echo '<td>'.$row['dataCriacao'].'</td>';
-                                echo '<td>'.$status.'</td>';
-                                echo '</tr>';
-                            }
-                        }
+                                    $scriptAction = "window.location = '?module=protocolo&id=".$i."';";
 
-                        mysqli_close($db);
-                    ?>
+                                    if($status == "Rejeitado") {
+                                        $rowsCount += 1;
+                                        echo '<tr>';
+                                        echo '<td>'.$i.'</td>';
 
-                </table>
+                                        echo '<td>'.$row['titulo'].'</td>';
+                                        echo '<td>'.$cProtocolo->GetNomeSetor($row['setor_id']).'</td>';
+                                        echo '<td>'.$row['dataCriacao'].'</td>';
+                                        echo '<td>'.$status.'</td>';
+                                        echo  '
+                                    <td>
+                                            <a href="#" class="view" title="View" data-toggle="tooltip" onclick="'.$scriptAction.'"><i class="material-icons">&#xE417;</i></a>
+                                            <a href="#" class="edit" id="More'.$i.'" title="Edit" data-toggle="dropdown" display="dynamic"  aria-haspopup="false" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+
+                                            <div class="dropdown-menu" aria-labelledby="More'.$i.'">
+                                            <a class="dropdown-item" onclick="addListRelatorio('.$i.')">Add ao relatorio</a>
+                                        </div>
+                                        </td>';
+                                        echo '</tr>';
+                                    }
+                                }
+
+                                mysqli_close($db);
+                            ?>
+
+                            
+                            </tbody>
+                        </table>
+                        <div class="clearfix">
+                            <div class="hint-text">Mostrando <b><?php echo $rowsCount; ?></b> de <b><?php echo $rowsCount; ?></b> resultados</div>
+                            <ul class="pagination">
+                                <li class="page-item"><a href="#">Anterior</a></li>
+                                <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                                <!-- <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                <li class="page-item"><a href="#" class="page-link">3</a></li>
+                                <li class="page-item"><a href="#" class="page-link">4</a></li>
+                                <li class="page-item"><a href="#" class="page-link">5</a></li> -->
+                                <li class="page-item"><a href="#" class="page-link">Proximo</a></li>
+                            </ul>
+                        </div>
+                    </div>               
             </div>
         </div>
 
         
     </div>
 
+<script>
+ChangeFocusMenu(0);
+</script>
