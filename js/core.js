@@ -75,6 +75,12 @@ function DoRequestProtocolo(id,callback)
     });
 }
 
+function doGerarRelatorioPdf(ids){
+    $.post("ajax.php",{gerar_Relatorio: JSON.stringify(ids)}, function(data) {
+        console.log(data)
+    });
+}
+
 function DoGetSetores(unidade_id, callback) 
 {
     $.post("ajax.php", {setores: unidade_id}, function(data) {

@@ -1,0 +1,59 @@
+.thead div {
+    height: auto;
+    text-align: center;
+    padding-top: 15px;
+
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(30, 128, 0);
+}
+
+.header {
+    height: 100px;
+    
+}
+
+.thead {
+   width: 100%;
+ 
+}
+.div_protocolorow div {
+   height: auto ;
+
+   float: left;
+   text-align: center;
+
+}
+
+.div_protocolorow {
+    flex-wrap: wrap;
+    display: flex;
+}
+
+
+.id_protocolo {
+    background-color: teal;
+    color: white;
+    font-size: 1.8em;
+    width: 12.444%;
+    border-radius: 20px;
+    width: 16.666667%;
+    
+}
+
+.desc_protocolo {
+
+    width: 54.666667%;
+   
+
+    
+}
+
+
+.setor_protocolo {
+    width: 27.966667%;
+    font-size: 19px;
+    border-left: 1px solid rgb(180, 180, 180);   
+
+
+}
