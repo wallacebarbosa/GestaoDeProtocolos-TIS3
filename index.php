@@ -27,6 +27,9 @@ if(!isset($_SESSION['user'])) {
 
         // redireciona para a pagina requisitada
         switch($module) {
+            case "p_criados":
+                include_once("pages/p_criados.php");
+                break;
             case "p_recebidos":
                 include_once("pages/p_recebidos.php");
                 break;

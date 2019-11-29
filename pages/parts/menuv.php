@@ -8,6 +8,10 @@
         <ul class="mx-auto form sub-menu collapse pl-2" id="tgprotocolos">
 
             <li class="expmenu">
+                <a class="subProfile" href="?module=p_criados"><i class="fa fa-arrow-right"></i>Criados</a>
+            </li>
+
+            <li class="expmenu">
                 <a class="subProfile" href="?module=p_recebidos"><i class="fa fa-arrow-right"></i>Recebidos</a>
             </li>
 

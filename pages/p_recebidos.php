@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 define('DB_SERVER', "127.0.0.1");
 define('DB_NAME', "gprotocol");
@@ -149,40 +149,8 @@ $db = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
                         <h1>Protocolos Recebidos</h1>
                         <p class="lead">Meus protocolos</p>
                 </div>
-                <button id="modalRelatorio" type="button" class="btn btn-info float-left m-4" data-toggle="modal" data-target="#exampleModal">Relatorio de entrega <span class="badge badge-light"></button> 
                 </div>
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-xl" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Adicione os protocolos que deseje entregar</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                            <table class="table" id="table-cart">
-                            <thead>
-
-                                <tr>
-                                    <th>#</th>
-                                    <th>Titulo<i class="fa fa-sort"></i></th>
-                                    <th>Data<i class="fa fa-sort"></i></th>>
-                                    <th>Actions</th>
-                                </tr>
-   
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            </table>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                <button type="button" class="btn btn-primary" onclick="gerarRelatorio()">Gerar Relatorio</button>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
+                
 
                     <div class="table-wrapper col-12">			
                         <div class="table-title">
@@ -230,11 +198,13 @@ $db = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
                                 $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
                                 $mySetor = $_SESSION['user']['setor_id'];
-                                $query = mysqli_query($db, "SELECT * FROM `protocolo` P WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.destinatario_id = $mySetor );");
+                                $query = mysqli_query($db, "SELECT protocolo.* FROM `protocolo` INNER JOIN `encaminhamento` ON protocolo.id = encaminhamento.protocolo_id WHERE encaminhamento.destinatario_id = $mySetor");
                                 
                                 $rowsCount = mysqli_num_rows($query);
                                
                                 while($row = mysqli_fetch_assoc($query)) {
+
+                                    
                                     $i = $row['id'];
                                     $status = $cProtocolo->GetProtocoloStatus($i);
 
@@ -250,11 +220,6 @@ $db = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
                                     echo  '
                                    <td>
                                         <a href="#" class="view" title="View" data-toggle="tooltip" onclick="'.$scriptAction.'"><i class="material-icons">&#xE417;</i></a>
-                                        <a href="#" class="edit" id="More'.$i.'" title="Edit" data-toggle="dropdown" display="dynamic"  aria-haspopup="false" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-
-                                        <div class="dropdown-menu" aria-labelledby="More'.$i.'">
-                                        <a class="dropdown-item" onclick="addListRelatorio('.$i.')">Add ao relatorio</a>
-                                      </div>
                                     </td>';
                                     echo '</tr>';
                                 }
@@ -285,52 +250,5 @@ $db = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
     </div>
 
     
-    <script>
-    let i = 0;
-    let protocolosListR = []
-        function addListRelatorio(id) { 
-
-            DoRequestProtocolo(id,function(data) {
-
-
-                if(!$('#table-cart tbody tr').is(`#row${data[0].id}`)){ 
-
-
-                    
-                $('#table-cart').find('tbody').append(`
-                    <tr id="row${data[0].id}">
-                    <td>${data[0].id}</td>
-                    <td>${data[0].titulo}</td>
-                    <td>${data[0].dataCriacao}</td>
-                    <td>
-                      <a href="#" class="view" title="View" data-toggle="tooltip" onclick="removeListRelatorio(${data[0].id})"><i class="material-icons">remove_circle</i></a>
-                    </td>
-                    </tr>
-                `)
-
-                protocolosListR.push(id)
-                console.log(protocolosListR)
-                $('#modalRelatorio').html(`Relatorio de entrega <span class="badge badge-light">${++i}</span>`)
     
-                }  
-            })
-
-                   
-         }
-
-         function removeListRelatorio(id) { 
-
-            $(`#row${id}`).remove()
-            
-            $('#modalRelatorio').html(`Relatorio de entrega <span class="badge badge-light">${--i}</span>`)
-            protocolosListR = protocolosListR.filter(function(item) {
-                return item !== id
-            })
-            console.log(i)
-            }
-
-            function gerarRelatorio() { 
-        window.location = `?module=p_recebidos&gerar_Relatorio=${JSON.stringify(protocolosListR)}`
-             }
-    </script>
 

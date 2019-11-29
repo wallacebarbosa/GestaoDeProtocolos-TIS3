@@ -1,3 +1,5 @@
+
+
     <!-- container -->
     <div id="container" style="padding-bottom:10px;">
         <div class="m-2 col-12  ">
@@ -50,16 +52,48 @@
                         <h1>Protocolos Finalizados</h1>
                         <p class="lead">Meus protocolos</p>
                 </div>
-                <button type="button" class="btn btn-info float-left m-4">Relatorio de entrega</button> 
                 </div>
-                <table id="table-protocolos">
-                    <tr>
-                        <th>#</th>
-                        <th>Titulo</th>
-                        <th>Setor</th>
-                        <th>Data</th>
-                        <th>Status</th>
-                    </tr>
+
+                <div class="table-wrapper col-12">			
+                        <div class="table-title">
+                            <div class="row">
+                                <div class="col-sm-4 ml-4">
+                                    <div class="show-entries">
+                                        <span>Mostrar</span>
+                                        <select>
+                                            <option>5</option>
+                                            <option>10</option>
+                                            <option>15</option>
+                                            <option>20</option>
+                                        </select>
+                                        <span>Entradas</span>
+                                    </div>						
+                                </div>
+
+                                <div class="col-sm-7">
+                                    <div class="search-box">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
+                                            <input type="text" class="form-control" placeholder="Pesquisar&hellip;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+
+                                <tr>
+                                    <th>#</th>
+                                    <th>Titulo<i class="fa fa-sort"></i></th>
+                                    <th>Remetente<i class="fa fa-sort"></i></th>
+                                    <th>Data<i class="fa fa-sort"></i></th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+   
+                            </thead>
+                            <tbody>
 
                     <?php
                         $cProtocolo = new Protocolo();
@@ -67,7 +101,7 @@
                         $db = mysqli_connect("127.0.0.1", "root", "", "gprotocol");
                         $mySetor = $_SESSION['user']['setor_id'];
                         $query = mysqli_query($db, "SELECT * FROM `protocolo` P WHERE EXISTS (SELECT 1 FROM `encaminhamento` e WHERE e.destinatario_id = $mySetor );");
-
+                        $rowsCount = mysqli_num_rows($query);
                         while($row = mysqli_fetch_assoc($query)) {
                             $i = $row['id'];
                             $status = $cProtocolo->GetProtocoloStatus($i);
@@ -76,13 +110,17 @@
 
                                 $scriptAction = "window.location = '?module=protocolo&id=".$i."';";
 
-                                echo '<tr onclick="'.$scriptAction.'">';
+                                echo '<tr>';
                                 echo '<td>'.$i.'</td>';
 
                                 echo '<td>'.$row['titulo'].'</td>';
                                 echo '<td>'.$cProtocolo->GetNomeSetor($row['setor_id']).'</td>';
                                 echo '<td>'.$row['dataCriacao'].'</td>';
                                 echo '<td>'.$status.'</td>';
+                                echo  '
+                                   <td>
+                                        <a href="#" class="view" title="View" data-toggle="tooltip" onclick="'.$scriptAction.'"><i class="material-icons">&#xE417;</i></a>
+                                    </td>';
                                 echo '</tr>';
                             }
                         }
@@ -90,10 +128,22 @@
                         mysqli_close($db);
                     ?>
 
-                </table>
+                 </tbody>
+                        </table>
+                        <div class="clearfix">
+                        <div class="hint-text">Mostrando <b><?php echo $rowsCount; ?></b> de <b><?php echo $rowsCount; ?></b> resultados</div>
+                            <ul class="pagination">
+                                <li class="page-item"><a href="#">Anterior</a></li>
+                                <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                                <!-- <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                <li class="page-item"><a href="#" class="page-link">3</a></li>
+                                <li class="page-item"><a href="#" class="page-link">4</a></li>
+                                <li class="page-item"><a href="#" class="page-link">5</a></li> -->
+                                <li class="page-item"><a href="#" class="page-link">Proximo</a></li>
+                            </ul>
+                        </div>
+                    </div>               
             </div>
         </div>
-
         
     </div>
-
